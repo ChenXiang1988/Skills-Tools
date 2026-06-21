@@ -1,0 +1,7 @@
+interface:
+  display_name: "海关归类助手"
+  short_description: "按HS六准则分析商品归类并输出结论"
+  default_prompt: "使用 $customs-classification 按步骤分析这个商品的海关归类，信息不足时先追问，再输出结构化结论。"
+
+policy:
+  allow_implicit_invocation: true

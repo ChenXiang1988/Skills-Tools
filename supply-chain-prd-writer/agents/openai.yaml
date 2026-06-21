@@ -1,0 +1,7 @@
+interface:
+  display_name: "Supply Chain PRD Writer"
+  short_description: "面向供应链后台的需求分析、Plan、原型和PRD"
+  default_prompt: "Use $supply-chain-prd-writer to turn supply-chain backend requirements into staged analysis, Plan, prototype, and PRD outputs."
+
+policy:
+  allow_implicit_invocation: true

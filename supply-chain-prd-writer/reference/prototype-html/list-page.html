@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><!-- @PAGE_TITLE --></title>
+    <!-- Ant Design CDN (React UMD) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd@5/dist/reset.css">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/antd@5/dist/antd.min.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Mermaid CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        /* ========== 泓湖品牌色 CSS 变量 ========== */
+        :root {
+            --hhong-primary: #C4171C;
+            --hhong-primary-hover: #E64A4F;
+            --hhong-primary-light: #FFF1F0;
+            --hhong-gold: #D4A017;
+            --hhong-gold-light: #FFF7E6;
+            --ant-primary: #C4171C;
+        }
+        /* 覆盖 Ant Design 主色 */
+        .ant-btn-primary {
+            background-color: var(--hhong-primary) !important;
+            border-color: var(--hhong-primary) !important;
+        }
+        .ant-btn-primary:hover {
+            background-color: var(--hhong-primary-hover) !important;
+            border-color: var(--hhong-primary-hover) !important;
+        }
+        .ant-table-thead > tr > th {
+            background: var(--hhong-primary) !important;
+            color: #fff !important;
+        }
+        /* ========== 页面基础样式 ========== */
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+        .page-container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .page-title { font-size: 20px; font-weight: 600; color: #1d1d1d; }
+    </style>
+</head>
+<body>
+    <div class="page-container" id="root">
+        <!-- @PAGE_HEADER: 页面标题区 -->
+        <div class="page-header">
+            <div class="page-title"><!-- @PAGE_TITLE -->列表</div>
+            <div>
+                <!-- @HEADER_BUTTONS -->
+                <button class="ant-btn ant-btn-primary" onclick="handleCreate()">新建</button>
+            </div>
+        </div>
+
+        <!-- @QUERY_FORM: 查询区（Ant Design Form） -->
+        <div class="query-card ant-card" style="background:#fff;padding:20px;border-radius:8px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+            <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;">
+                <!-- @QUERY_FIELDS -->
+                <div style="display:flex;gap:8px;">
+                    <button class="ant-btn ant-btn-primary" onclick="handleSearch()">查询</button>
+                    <button class="ant-btn" onclick="handleReset()">重置</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- @TABLE: 列表区（Ant Design Table） -->
+        <div class="table-card ant-card" style="background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+            <!-- @TABLE_TOOLBAR: 列表操作栏（可选） -->
+            <div style="margin-bottom:16px;display:flex;justify-content:space-between;">
+                <div><!-- @TABLE_LEFT_TOOLBAR --></div>
+                <div><!-- @TABLE_RIGHT_TOOLBAR --></div>
+            </div>
+            <!-- @TABLE_CONTENT: 由 React 渲染 -->
+            <div id="table-container"></div>
+            <!-- @PAGINATION -->
+            <div id="pagination-container" style="margin-top:16px;text-align:right;"></div>
+        </div>
+    </div>
+
+    <!-- ========== @LIGHT_INTERACTION_JS: 轻交互 JS ========== -->
+    <script type="text/babel">
+        // ---- Mock 数据（@MOCK_DATA：由 skill 按业务填充） ----
+        const mockData = [
+            { id: '001', <!-- @MOCK_FIELDS --> status: 'enabled', statusLabel: '启用', statusColor: 'green' },
+            { id: '002', <!-- @MOCK_FIELDS --> status: 'disabled', statusLabel: '停用', statusColor: 'red' },
+            { id: '003', <!-- @MOCK_FIELDS --> status: 'enabled', statusLabel: '启用', statusColor: 'green' },
+        ];
+
+        // ---- 页面跳转（@PAGE_NAVIGATION） ----
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+
+        // ---- 查询/重置（@SEARCH_RESET） ----
+        function handleSearch() {
+            const formData = getFormData();
+            const filtered = mockData.filter(row => {
+                // @FILTER_LOGIC：由 skill 按业务补充
+                return true;
+            });
+            renderTable(filtered);
+        }
+        function handleReset() {
+            document.querySelectorAll('.query-card input, .query-card select').forEach(el => el.value = '');
+            renderTable(mockData);
+        }
+
+        // ---- 操作按钮回调（@OPERATION_HANDLERS） ----
+        function handleCreate() {
+            // @NAVIGATE_TO_FORM：跳转到新建页
+            navigateTo('<!-- @CREATE_PAGE_URL -->');
+        }
+        function handleView(record) {
+            navigateTo(`<!-- @DETAIL_PAGE_URL -->?id=${record.id}`);
+        }
+        function handleEdit(record) {
+            navigateTo(`<!-- @EDIT_PAGE_URL -->?id=${record.id}`);
+        }
+        function handleDelete(record) {
+            // @CONFIRM_MODAL：弹出确认弹窗
+            if (window.confirm(`确认删除「${record.id}」？`)) {
+                // @DELETE_ACTION
+                alert('删除成功（演示）');
+            }
+        }
+
+        // ---- 渲染 Table（@RENDER_TABLE） ----
+        function renderTable(data) {
+            const { Table, Tag, Button, Space } = antd;
+            const columns = [
+                // @TABLE_COLUMNS：由 skill 按业务填充
+                { title: '编号', dataIndex: 'id', key: 'id' },
+                {
+                    title: '状态', dataIndex: 'statusLabel', key: 'status',
+                    render: (text, record) => React.createElement(Tag, { color: record.statusColor }, text)
+                },
+                {
+                    title: '操作', key: 'action',
+                    render: (_, record) => React.createElement(Space, null,
+                        React.createElement(Button, { type: 'link', onClick: () => handleView(record) }, '查看'),
+                        React.createElement(Button, { type: 'link', onClick: () => handleEdit(record) }, '编辑'),
+                        React.createElement(Button, { type: 'link', danger: true, onClick: () => handleDelete(record) }, '删除'),
+                    )
+                },
+            ];
+            ReactDOM.render(
+                React.createElement(Table, {
+                    columns: columns,
+                    dataSource: data,
+                    rowKey: 'id',
+                    pagination: false,
+                    // @TABLE_PROPS：由 skill 按需补充
+                }),
+                document.getElementById('table-container')
+            );
+        }
+
+        // ---- 初始化 ----
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTable(mockData);
+            // @INIT_HOOK：由 skill 按需补充初始化逻辑
+        });
+    </script>
+</body>
+</html>

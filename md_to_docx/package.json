@@ -1,0 +1,12 @@
+{
+  "name": "md-to-docx-tools",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Local tooling for Markdown to Word conversion.",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "11.15.0",
+    "jsdom": "29.1.1",
+    "sharp": "0.35.1"
+  }
+}

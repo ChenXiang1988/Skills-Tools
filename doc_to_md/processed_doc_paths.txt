@@ -1,0 +1,11 @@
+# 已转换 Word 文件的绝对路径记录
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/knowledge_base/doc/陈久超提供的资料/海关监管文件/深圳海关新零售监管方案.doc
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/knowledge_base/doc/陈久超提供的资料/海关监管文件/网购保税+保税仓储.doc
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/knowledge_base/doc/陈久超提供的资料/海关监管文件/集中理货待查区监管方案.doc
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/knowledge_base/doc/陈久超提供的资料/跨境电子商务文件/《关于完善跨境电子商务零售进口监管有关工作的通知》的个人分析.docx
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/knowledge_base/doc/陈久超提供的资料/跨境电子商务文件/关于跨境电子商务零售进出口商品有关监管事宜的公告2018 194号.doc
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/knowledge_base/doc/陈久超提供的资料/跨境电子商务文件/商务部 发展改革委 财政部 海关总署 税务总局 市场监管总局关于完善跨境电子商务零售进口监管有关工作的通知.doc
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/knowledge_base/doc/陈久超提供的资料/跨境电子商务文件/海关总署公告2014年第12号（关于增列海关监管方式代码的公告）.doc
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/knowledge_base/doc/陈久超提供的资料/跨境电子商务文件/海关总署公告2014年第57号（关于增列海关监管方式代码的公告）.doc
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/knowledge_base/doc/陈久超提供的资料/跨境电子商务文件/海关总署关税征管司、加贸司关于明确跨境电商进口商品完税价格有关问题的通知.doc
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/knowledge_base/doc/陈久超提供的资料/跨境电子商务文件/风险.doc

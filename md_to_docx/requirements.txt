@@ -1,0 +1,4 @@
+python-docx
+markdown
+beautifulsoup4
+Pillow

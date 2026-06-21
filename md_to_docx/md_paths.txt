@@ -1,0 +1,8 @@
+# Markdown 路径列表
+# 一行一个，支持绝对路径或仓库相对路径
+# 例如：
+# knowledge_base/doc/美国IOR（Importer of Record）历史与现状总结.md
+# /Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/knowledge_base/doc/海关监管代码.md
+
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/example/xzy/03Warehouse Management System/Plan/20260615_Plan0.md
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/example/xzy/03Warehouse Management System/PRD/20260616_xyWMS_intercept_return_putaway_prd.md

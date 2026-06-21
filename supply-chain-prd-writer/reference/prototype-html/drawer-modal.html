@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抽屉/弹窗组件演示</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd@5/dist/reset.css">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/antd@5/dist/antd.min.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        :root { --hhong-primary: #C4171C; }
+        .ant-btn-primary { background-color: var(--hhong-primary) !important; border-color: var(--hhong-primary) !important; }
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+        .page-container { max-width: 1000px; margin: 0 auto; padding: 24px; }
+        .section { background: #fff; padding: 24px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .section-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #1d1d1d; }
+    </style>
+</head>
+<body>
+    <div class="page-container" id="root">
+        <h2 style="color:#1d1d1d;">抽屉/弹窗组件演示（轻交互参考模板）</h2>
+        <p style="color:#666;margin-bottom:24px;">以下组件可直接嵌入列表页或详情页原型中。</p>
+
+        <!-- @SECTION_MODAL：弹窗演示区 -->
+        <div class="section">
+            <div class="section-title">Modal 弹窗（@MODAL_DEMO）</div>
+            <div id="modal-demo-btns"></div>
+            <div id="modal-container"></div>
+        </div>
+
+        <!-- @SECTION_DRAWER：抽屉演示区 -->
+        <div class="section">
+            <div class="section-title">Drawer 抽屉（@DRAWER_DEMO）</div>
+            <div id="drawer-demo-btns"></div>
+            <div id="drawer-container"></div>
+        </div>
+    </div>
+
+    <script type="text/babel">
+        const { Button, Modal, Drawer, Form, Input, message } = antd;
+
+        // ==================== @MODAL_USAGE：弹窗使用方式 ====================
+        let modalVisible = false;
+
+        function showModal(title, content) {
+            Modal.confirm({
+                title: title || '确认操作',
+                content: content || '确认执行此操作？',
+                okText: '确认',
+                cancelText: '取消',
+                onOk: () => { message.success('操作成功（演示）'); },
+            });
+        }
+
+        // 表单弹窗（@FORM_MODAL）
+        function showFormModal() {
+            let formRef;
+            Modal.confirm({
+                title: '<!-- @MODAL_TITLE -->',
+                width: 600,
+                content: React.createElement('div', { style: { marginTop: 16 } },
+                    React.createElement(Form, {
+                        ref: ref => formRef = ref,
+                        layout: 'vertical',
+                    },
+                        React.createElement(Form.Item, { label: '<!-- @FIELD_LABEL -->', name: 'field1', rules: [{ required: true }] },
+                            React.createElement(Input, { placeholder: '<!-- @FIELD_PLACEHOLDER -->' })
+                        ),
+                        // @MODAL_FORM_FIELDS：由 skill 按业务补充
+                    )
+                ),
+                okText: '确认',
+                cancelText: '取消',
+                onOk: () => {
+                    // @MODAL_SUBMIT_ACTION
+                    message.success('保存成功（演示）');
+                },
+            });
+        }
+
+        // ==================== @DRAWER_USAGE：抽屉使用方式 ====================
+        function renderDrawerDemo() {
+            // 从右侧打开的抽屉（@DRAWER_RIGHT）
+            const drawerBtns = React.createElement('div', { style: { display: 'flex', gap: 12, flexWrap: 'wrap' } },
+                React.createElement(Button, { type: 'primary', onClick: () => openDrawer('detail') }, '打开详情抽屉'),
+                React.createElement(Button, { onClick: () => openDrawer('form') }, '打开表单抽屉'),
+                React.createElement(Button, { danger: true, onClick: () => openDrawer('confirm') }, '打开确认抽屉'),
+            );
+            ReactDOM.render(drawerBtns, document.getElementById('drawer-demo-btns'));
+        }
+
+        // 抽屉控制（@DRAWER_CONTROL）
+        function openDrawer(type) {
+            const titles = { detail: '详情', form: '编辑', confirm: '确认操作' };
+            const widths = { detail: 520, form: 720, confirm: 400 };
+
+            Drawer.confirm({
+                title: titles[type],
+                width: widths[type],
+                content: `<div id="drawer-content-${type}">@DRAWER_CONTENT_PLACEHOLDER</div>`,
+                onOk: () => { message.success('操作成功（演示）'); },
+            });
+        }
+
+        // ==================== @USE_IN_LIST_PAGE：在列表页中使用弹窗/抽屉 ====================
+        /*
+          在 list-page.html 中，操作列的回调可以直接调用：
+          function handleView(record) {
+              // 打开详情抽屉
+              Drawer.confirm({
+                  title: '详情',
+                  content: `编号：${record.id}`,
+              });
+          }
+          function handleDelete(record) {
+              // 打开确认弹窗
+              Modal.confirm({
+                  title: '确认删除',
+                  content: `确认删除「${record.id}」？`,
+                  onOk: () => { // 删除逻辑 },
+              });
+          }
+        */
+
+        // ---- 渲染演示按钮 ----
+        function renderDemoButtons() {
+            const btns = React.createElement('div', { style: { display: 'flex', gap: 12, flexWrap: 'wrap' } },
+                React.createElement(Button, { type: 'primary', onClick: () => showModal() }, 'Confirm 弹窗'),
+                React.createElement(Button, { onClick: () => showFormModal() }, '表单弹窗'),
+            );
+            ReactDOM.render(btns, document.getElementById('modal-demo-btns'));
+        }
+
+        // ---- 初始化 ----
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDemoButtons();
+            renderDrawerDemo();
+        });
+    </script>
+</body>
+</html>

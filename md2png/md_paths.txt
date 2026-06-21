@@ -1,0 +1,6 @@
+# 输入文件列表 - 每行一个 .md 路径，支持绝对路径或相对路径（相对于仓库根目录）
+# 以 # 开头的行为注释
+# 示例：
+example/xzy/03Warehouse Management System/01Plan/20260617_Plan_AfterSalesReceipt.md
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/example/xzy/03Warehouse Management System/01Plan/20260618_Plan_InterceptReturnPutaway.md
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/example/xzy/03Warehouse Management System/01Plan/20260618_Plan_OutboundInterception.md

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><!-- @PAGE_TITLE --><!-- @FORM_MODE --></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd@5/dist/reset.css">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/antd@5/dist/antd.min.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        :root {
+            --hhong-primary: #C4171C;
+            --hhong-primary-hover: #E64A4F;
+            --hhong-primary-light: #FFF1F0;
+        }
+        .ant-btn-primary { background-color: var(--hhong-primary) !important; border-color: var(--hhong-primary) !important; }
+        .ant-btn-primary:hover { background-color: var(--hhong-primary-hover) !important; border-color: var(--hhong-primary-hover) !important; }
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+        .page-container { max-width: 900px; margin: 0 auto; padding: 24px; }
+        .page-header { margin-bottom: 20px; }
+        .page-title { font-size: 20px; font-weight: 600; color: #1d1d1d; }
+    </style>
+</head>
+<body>
+    <div class="page-container" id="root">
+        <!-- @PAGE_HEADER -->
+        <div class="page-header">
+            <button class="ant-btn ant-btn-default" onclick="navigateBack()">← 返回</button>
+            <div class="page-title"><!-- @PAGE_TITLE --><!-- @FORM_MODE --></div>
+        </div>
+
+        <!-- @FORM_CONTAINER：表单区 -->
+        <div style="background:#fff;padding:32px 40px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+            <div id="form-container"></div>
+        </div>
+    </div>
+
+    <script type="text/babel">
+        const { Form, Input, Select, DatePicker, InputNumber, Switch, Button, message } = antd;
+        const { useForm, useWatch } = antd.Form;
+
+        // ---- 页面跳转 ----
+        function navigateBack() {
+            window.location.href = '<!-- @LIST_PAGE_URL -->';
+        }
+
+        // ---- 表单提交（@FORM_SUBMIT） ----
+        function handleSubmit(values) {
+            console.log('表单提交数据：', values);
+            // @SUBMIT_ACTION：由 skill 按业务补充
+            // 演示：显示成功提示并跳转
+            message.success('保存成功（演示）');
+            setTimeout(() => navigateBack(), 1000);
+        }
+
+        // ---- 渲染表单 ----
+        function renderForm() {
+            const [form] = Form.useForm();
+
+            const formItems = [
+                // @FORM_ITEMS：由 skill 按业务填充
+                {
+                    name: 'name',
+                    label: '名称',
+                    rules: [{ required: true, message: '请输入名称' }],
+                    component: React.createElement(Input, { placeholder: '请输入名称', style: { width: '100%' } })
+                },
+                {
+                    name: 'status',
+                    label: '状态',
+                    rules: [{ required: true, message: '请选择状态' }],
+                    component: React.createElement(Select, {
+                        placeholder: '请选择状态',
+                        style: { width: '100%' },
+                        options: [
+                            { value: 'enabled', label: '启用' },
+                            { value: 'disabled', label: '停用' },
+                        ]
+                    })
+                },
+                // @ADDITIONAL_FORM_ITEMS：由 skill 按需补充
+            ];
+
+            const formNode = React.createElement(Form, {
+                form: form,
+                layout: 'vertical',
+                onFinish: handleSubmit,
+                // @FORM_PROPS：由 skill 按需补充
+            },
+                // 动态渲染表单项
+                formItems.map(item =>
+                    React.createElement(Form.Item, {
+                        key: item.name,
+                        name: item.name,
+                        label: item.label,
+                        rules: item.rules,
+                    }, item.component)
+                ),
+                // @FORM_ACTION_BUTTONS
+                React.createElement(Form.Item, null,
+                    React.createElement('div', { style: { display: 'flex', gap: '12px' } },
+                        React.createElement(Button, { type: 'primary', htmlType: 'submit' }, '保存'),
+                        React.createElement(Button, { onClick: () => form.resetFields() }, '重置'),
+                        React.createElement(Button, { onClick: navigateBack }, '取消')
+                    )
+                )
+            );
+
+            ReactDOM.render(formNode, document.getElementById('form-container'));
+        }
+
+        // ---- 初始化 ----
+        document.addEventListener('DOMContentLoaded', () => {
+            renderForm();
+            // @INIT_HOOK：如为编辑模式，此处回填数据
+            // form.setFieldsValue({ /* @EDIT_INIT_DATA */ });
+        });
+    </script>
+</body>
+</html>

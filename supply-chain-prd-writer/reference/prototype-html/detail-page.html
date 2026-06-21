@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><!-- @PAGE_TITLE -->详情</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd@5/dist/reset.css">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/antd@5/dist/antd.min.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --hhong-primary: #C4171C;
+            --hhong-primary-hover: #E64A4F;
+            --hhong-primary-light: #FFF1F0;
+        }
+        .ant-btn-primary { background-color: var(--hhong-primary) !important; border-color: var(--hhong-primary) !important; }
+        .ant-btn-primary:hover { background-color: var(--hhong-primary-hover) !important; border-color: var(--hhong-primary-hover) !important; }
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+        .page-container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+        .page-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+        .page-title { font-size: 20px; font-weight: 600; color: #1d1d1d; }
+    </style>
+</head>
+<body>
+    <div class="page-container" id="root">
+        <!-- @PAGE_HEADER -->
+        <div class="page-header">
+            <button class="ant-btn ant-btn-default" onclick="navigateBack()">← 返回</button>
+            <div class="page-title"><!-- @PAGE_TITLE -->详情</div>
+            <div style="flex:1;"></div>
+            <!-- @HEADER_BUTTONS -->
+            <button class="ant-btn ant-btn-primary" onclick="handleEdit()">编辑</button>
+            <button class="ant-btn" onclick="handleStatusToggle()"><!-- @STATUS_TOGGLE_TEXT --></button>
+        </div>
+
+        <!-- @DETAIL_CONTENT -->
+        <div id="detail-container"></div>
+
+        <!-- @RELATED_TABLE: 关联数据表格（可选） -->
+        <div id="related-table-container" style="margin-top:24px;"></div>
+
+        <!-- @FLOW_CHART: 流程图（可选，Mermaid） -->
+        <div id="flow-chart-container" style="margin-top:24px;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);"></div>
+    </div>
+
+    <script type="text/babel">
+        // ---- Mock 数据（@MOCK_DETAIL_DATA：由 skill 按业务填充） ----
+        const detailData = {
+            id: '<!-- @DETAIL_ID -->',
+            <!-- @DETAIL_FIELDS -->
+            status: 'enabled',
+            statusLabel: '启用',
+            statusColor: 'green',
+            createdAt: '2026-06-21 10:00:00',
+            updatedAt: '2026-06-21 10:00:00',
+        };
+
+        // ---- 页面跳转 ----
+        function navigateBack() {
+            window.location.href = '<!-- @LIST_PAGE_URL -->';
+        }
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+
+        // ---- 操作回调 ----
+        function handleEdit() {
+            navigateTo(`<!-- @EDIT_PAGE_URL -->?id=${detailData.id}`);
+        }
+        function handleStatusToggle() {
+            // @STATUS_TOGGLE_ACTION
+            alert('状态切换成功（演示）');
+        }
+
+        // ---- Tab 切换（@TAB_SWITCH） ----
+        function handleTabChange(key) {
+            // @TAB_CONTENT_SWITCH：由 skill 按业务补充
+            console.log('Tab switched to:', key);
+        }
+
+        // ---- 渲染详情页 ----
+        function renderDetail() {
+            const { Descriptions, Tag, Tabs, TabPane } = antd;
+            const { Column, Card } = antd;
+
+            // @DETAIL_TABS：由 skill 定义 Tab 项
+            const tabItems = [
+                {
+                    key: 'basic',
+                    label: '基本信息',
+                    children: React.createElement(Descriptions, {
+                        bordered: true,
+                        column: 2,
+                        // @DESCRIPTIONS_PROPS
+                    },
+                        // @DESCRIPTION_ITEMS：由 skill 按业务填充
+                        React.createElement(Descriptions.Item, { label: '编号' }, detailData.id),
+                        React.createElement(Descriptions.Item, { label: '状态' },
+                            React.createElement(Tag, { color: detailData.statusColor }, detailData.statusLabel)
+                        ),
+                        React.createElement(Descriptions.Item, { label: '创建时间', span: 2 }, detailData.createdAt),
+                    )
+                },
+                {
+                    key: 'related',
+                    label: '关联数据',
+                    children: React.createElement('div', { id: 'related-tab-content' },
+                        '@RELATED_TABLE_PLACEHOLDER'
+                    )
+                },
+                // @ADDITIONAL_TABS：由 skill 按需补充
+            ];
+
+            ReactDOM.render(
+                React.createElement(Tabs, {
+                    defaultActiveKey: 'basic',
+                    items: tabItems,
+                    onChange: handleTabChange,
+                }),
+                document.getElementById('detail-container')
+            );
+        }
+
+        // ---- 渲染流程图（@FLOW_CHART） ----
+        function renderFlowChart(mermaidCode) {
+            if (!mermaidCode) return;
+            const container = document.getElementById('flow-chart-container');
+            container.innerHTML = `<div class="chart-title" style="font-size:16px;font-weight:600;margin-bottom:12px;">流程说明</div><div class="mermaid">${mermaidCode}</div>`;
+            mermaid.initialize({ startOnLoad: true });
+        }
+
+        // ---- 初始化 ----
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDetail();
+            // @INIT_HOOK
+            // renderFlowChart(`@MERMAID_CODE`);
+        });
+    </script>
+</body>
+</html>

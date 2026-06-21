@@ -1,0 +1,6 @@
+# 已处理记录（自动追加，也可手动清空重置）
+# 每行一条已转换的 Markdown 文件绝对路径
+# 清空此文件即可重新转换所有文件
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/example/xzy/03Warehouse Management System/01Plan/20260617_Plan_AfterSalesReceipt.md
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/example/xzy/03Warehouse Management System/01Plan/20260618_Plan_InterceptReturnPutaway.md
+/Users/martin/Documents/Martinjob/Supply-Chain-Knowledge-Repository-/example/xzy/03Warehouse Management System/01Plan/20260618_Plan_OutboundInterception.md
