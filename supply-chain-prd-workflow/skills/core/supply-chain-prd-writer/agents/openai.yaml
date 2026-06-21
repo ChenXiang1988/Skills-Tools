@@ -1,7 +1,0 @@
-interface:
-  display_name: "Supply Chain PRD Writer"
-  short_description: "面向WMS/TMS/OMS后台的需求编排和PRD工作流"
-  default_prompt: "Use $supply-chain-prd-writer to turn supply-chain backend requirements into staged analysis, Plan, prototype, and PRD outputs."
-
-policy:
-  allow_implicit_invocation: true
