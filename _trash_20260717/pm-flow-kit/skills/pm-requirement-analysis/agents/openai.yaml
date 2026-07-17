@@ -1,0 +1,4 @@
+interface:
+  display_name: "PM Requirement Analysis"
+  short_description: "Turn rough requests into analysis, scenarios, risks, and artifact plans."
+  default_prompt: "Use $pm-requirement-analysis to analyze this product requirement before writing downstream artifacts."

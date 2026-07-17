@@ -1,0 +1,11 @@
+{
+  "workspace": {
+    "root": "/Users/martin/Documents/Martinjob/Skills-Tools/packages/pm-flow-kit-codex",
+    "realpath": "/Users/martin/Documents/Martinjob/Skills-Tools/packages/pm-flow-kit-codex",
+    "confirmed_at": "2026-07-17T13:11:12+08:00",
+    "confirmed_by": "martin",
+    "plugin_workdir": ".pm-flow/work",
+    "preserve_existing_structure": true,
+    "stop_on_mismatch": true
+  }
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{PROJECT_NAME}} Admin Prototype</title>
+  <link rel="stylesheet" href="assets/design-system/tokens.css">
+  <link rel="stylesheet" href="assets/prototype-chrome.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="brand"><div class="brand-logo">{{PROJECT_LOGO}}</div><div class="brand-title">{{PROJECT_NAME}}</div></div>
+      <div class="shop-switcher" id="shopSwitcher">
+        <button class="shop-switcher-trigger" id="shopSwitcherTrigger"><span id="shopSwitcherLabel"></span><span>⌄</span></button>
+        <div class="shop-switcher-menu" id="shopSwitcherMenu"></div>
+      </div>
+    </div>
+    <div class="topbar-right"><span>Help Center</span><span>Messages</span><div class="avatar">PM</div><span>Product Manager</span></div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-scroll" id="sidebarMenu"></div>
+      <div class="sidebar-footer"><button class="collapse-btn" id="collapseBtn">☰ <span>Collapse menu</span></button></div>
+    </aside>
+    <main class="main">
+      <div class="page-header"><div class="tabs-row" id="tabsRow"></div></div>
+      <div class="page-body">
+        <div class="page-title-bar"><h1 class="page-title" id="pageTitle"></h1></div>
+        <div class="blank-placeholder">
+          <div class="blank-icon">□</div>
+          <div class="blank-title">Page content placeholder</div>
+          <div class="blank-desc">This shell keeps the role, menu, and tab structure. Edit <code>shared/menu-config.js</code> to add or remove pages.</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="shared/menu-config.js"></script>
+  <script src="shared/app-shell.js"></script>
+</body>
+</html>

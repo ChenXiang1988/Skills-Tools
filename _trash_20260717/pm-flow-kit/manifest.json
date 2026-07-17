@@ -1,0 +1,156 @@
+{
+  "name": "pm-flow-kit",
+  "version": "0.2.0",
+  "generated_date": "2026-07-17",
+  "upstream": "pm-flow-kit-codex",
+  "upstream_synced_at": "2026-07-17",
+  "entry_skill": "pm-flow",
+  "stages": [
+    "research",
+    "boundary",
+    "prototype",
+    "prd",
+    "review"
+  ],
+  "skills": [
+    {
+      "name": "pm-flow",
+      "path": "skills/pm-flow",
+      "role": "Workflow orchestration: stages, state, artifacts, decisions, and gates",
+      "display_name_zh": "PM Flow"
+    },
+    {
+      "name": "pm-research",
+      "path": "skills/pm-research",
+      "role": "Research-stage opportunity, user, market, competitor, benchmark, metric context, source-risk, assumption, and open-question analysis",
+      "display_name_zh": "PM Research"
+    },
+    {
+      "name": "pm-requirement-analysis",
+      "path": "skills/pm-requirement-analysis",
+      "role": "Requirement analysis, scenario catalog, use cases, end-to-end flow, and artifact plan before PRD, prototype, diagram, or review output",
+      "display_name_zh": "PM Requirement Analysis"
+    },
+    {
+      "name": "pm-metrics-definition",
+      "path": "skills/pm-metrics-definition",
+      "role": "Product success, input, guardrail, baseline, data source, owner, and threshold definitions",
+      "display_name_zh": "PM Metrics Definition"
+    },
+    {
+      "name": "pm-boundary",
+      "path": "skills/pm-boundary",
+      "role": "Boundary-stage scope, non-scope, stakeholders, roles, permissions, surfaces, system ownership, constraints, dependencies, assumptions, risks, and decisions",
+      "display_name_zh": "PM Boundary"
+    },
+    {
+      "name": "pm-prd",
+      "path": "skills/pm-prd",
+      "role": "PRD sizing, L1/L2/L3 templates, field dictionary, acceptance criteria, and quality checks",
+      "display_name_zh": "PM PRD"
+    },
+    {
+      "name": "pm-prototype-review",
+      "path": "skills/pm-prototype-review",
+      "role": "Prototype review artifacts that connect UI elements, rules, fields, and review findings",
+      "display_name_zh": "PM Prototype Review"
+    },
+    {
+      "name": "pm-html-prototype",
+      "path": "skills/pm-html-prototype",
+      "role": "Offline HTML prototype scaffold, device frames, fonts, design guideline use, component mapping, and validation",
+      "display_name_zh": "PM HTML Prototype"
+    },
+    {
+      "name": "pm-context-contract",
+      "path": "skills/pm-context-contract",
+      "role": "Domain rules, knowledge-base manifests, input constraints, and scoped context reading rules",
+      "display_name_zh": "PM Context Contract"
+    },
+    {
+      "name": "pm-mermaid-diagram",
+      "path": "skills/pm-mermaid-diagram",
+      "role": "Mermaid flowcharts, swimlane-style flows, state diagrams, sequence diagrams, and architecture diagrams",
+      "display_name_zh": "PM Mermaid Diagram"
+    },
+    {
+      "name": "pm-review",
+      "path": "skills/pm-review",
+      "role": "Independent product artifact review for requirement analysis, metrics, boundary, PRDs, prototypes, diagrams, risks, decisions, and readiness",
+      "display_name_zh": "PM Review"
+    },
+    {
+      "name": "humanizer",
+      "path": "skills/humanizer",
+      "role": "Product document language polishing without changing facts",
+      "display_name_zh": "Humanizer"
+    }
+  ],
+  "bundled_assets": [
+    {
+      "name": "design-system",
+      "path": "design-system",
+      "role": "Code-first design system (Web = Ant Design v5; PDA = antd-mobile). Baked in, NOT an external reference. Preferred source for 云仓/AntD projects; pm-html-prototype stays general and uses it optionally.",
+      "license": "internal-use-only (see design-system/PROVENANCE.md §2)",
+      "snapshot_of": "/Users/martin/Documents/Martinjob/designsys (frozen 2026-07-17)"
+    }
+  ],
+  "constraints": [
+    "Keep pm-flow-kit self-contained; do not depend on external PM skill routing.",
+    "Do not add new pm-flow stages.",
+    "Run context confirmation, requirement analysis, metrics definition, scenario catalog, use cases, end-to-end flow, and artifact planning before PRD, HTML prototype, diagram, review, or humanizer output.",
+    "Use pm-research for the research stage when the flow includes research.",
+    "Use pm-boundary for the boundary stage artifacts.",
+    "Use pm-review for the general review stage; use pm-prototype-review only for prototype-specific review artifacts.",
+    "Use pm-prd as the default PRD entry.",
+    "Use humanizer only for language polish; do not change requirement facts, scope, acceptance criteria, or decisions.",
+    "Do not default to Ant Design; use it only when the project knowledge base or user explicitly specifies Ant Design, antd, ProComponents, or Ant Design X."
+  ],
+  "display_name_zh": "PM Flow Kit",
+  "description_zh": "A self-contained product management skill package: pm-flow controls workflow; pm-context-contract confirms context; pm-requirement-analysis produces requirement analysis, scenario catalog, use cases, end-to-end flow, and artifact plan; pm-metrics-definition defines product metrics; pm-prd creates PRDs, field dictionaries, and acceptance criteria; pm-html-prototype creates HTML prototypes; pm-prototype-review creates optional review artifacts; pm-mermaid-diagram creates standalone diagrams; humanizer polishes product writing.（WorkBuddy 适配版，已去 Codex 化）",
+  "entry_skill_zh": "pm-flow",
+  "stages_zh": [
+    {
+      "stage": "research",
+      "name_zh": "Research",
+      "description_zh": "Complete opportunity, user, market, competitor, and metric context."
+    },
+    {
+      "stage": "boundary",
+      "name_zh": "Boundary",
+      "description_zh": "Define scope, non-scope, assumptions, priorities, and stakeholders."
+    },
+    {
+      "stage": "prototype",
+      "name_zh": "Prototype",
+      "description_zh": "Generate HTML prototypes when needed; create review artifacts only when requirement analysis says they are needed."
+    },
+    {
+      "stage": "prd",
+      "name_zh": "PRD",
+      "description_zh": "Create an L1, L2, or L3 PRD according to requirement size."
+    },
+    {
+      "stage": "review",
+      "name_zh": "Review",
+      "description_zh": "Check risks, close findings, and confirm delivery readiness."
+    }
+  ],
+  "constraints_zh": [
+    "Keep pm-flow-kit self-contained and do not depend on package-external routing.",
+    "Do not add new pm-flow stages.",
+    "Complete requirement analysis, metrics definition, scenario catalog, use cases, end-to-end flow, and artifact planning before PRD, HTML prototype, diagram, review artifact, or humanizer output.",
+    "Research 阶段使用 pm-research；boundary 阶段使用 pm-boundary；review 阶段使用 pm-review，原型专项评审才用 pm-prototype-review。",
+    "Use pm-prd as the default PRD entry.",
+    "Use humanizer only for expression; do not change requirement facts, scope, acceptance criteria, or decisions.",
+    "pm-html-prototype consumes the kit design-system/ (tokens.css + .yc-* components; Web=AntD v5, PDA=antd-mobile) as its single token source; the scaffold snapshots it into each prototype. For other design languages, follow user-supplied guidelines. Do not bundle a second token set.",
+    "Use pm-prototype-review only when requirement analysis says a prototype review artifact is needed.",
+    "Do not default to Ant Design; use it only when project knowledge or the user explicitly specifies it."
+  ],
+  "build": "workbuddy",
+  "build_version": "0.2.0+workbuddy.202607171523",
+  "upstream": "pm-flow-kit-codex",
+  "upstream_synced_at": "2026-07-17",
+  "distribution": "internal-only",
+  "usage_notice": "Internal use only. Not for public release or redistribution."
+}

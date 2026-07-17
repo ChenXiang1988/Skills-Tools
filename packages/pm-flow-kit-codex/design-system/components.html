@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PM Flow Kit Generic Components</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    body { margin: 0; padding: var(--space-6); font-family: var(--font-family); color: var(--color-text); background: var(--color-bg-layout); }
+    .gallery { display: grid; gap: var(--space-4); max-width: 960px; margin: 0 auto; }
+    .pf-card { background: var(--color-bg-container); border: 1px solid var(--color-border-secondary); border-radius: var(--radius-xl); box-shadow: var(--shadow-card); padding: var(--space-4); }
+    .pf-row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+    .pf-btn { height: 32px; padding: 0 15px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-bg-container); color: var(--color-text); font: inherit; cursor: pointer; }
+    .pf-btn.primary { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+    .pf-input { height: 32px; min-width: 220px; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0 11px; font: inherit; }
+    .pf-tag { display: inline-flex; align-items: center; height: 24px; padding: 0 8px; border-radius: var(--radius-sm); border: 1px solid var(--color-border-secondary); font-size: var(--font-size-sm); }
+    .pf-tag.success { color: var(--color-success); background: var(--color-success-bg); }
+    .pf-tag.warning { color: var(--color-warning); background: var(--color-warning-bg); }
+    .pf-tag.error { color: var(--color-error); background: var(--color-error-bg); }
+    .pf-table { width: 100%; border-collapse: collapse; font-size: var(--font-size-md); }
+    .pf-table th, .pf-table td { border-bottom: 1px solid var(--color-border-secondary); padding: var(--space-2) var(--space-3); text-align: left; }
+    .pf-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body>
+  <main class="gallery">
+    <section class="pf-card">
+      <h2>Buttons And Inputs</h2>
+      <div class="pf-row">
+        <button class="pf-btn primary">Primary action</button>
+        <button class="pf-btn">Secondary action</button>
+        <input class="pf-input" placeholder="Explicit field label nearby">
+      </div>
+    </section>
+    <section class="pf-card">
+      <h2>Status Tags</h2>
+      <div class="pf-row">
+        <span class="pf-tag success">Success</span>
+        <span class="pf-tag warning">Warning</span>
+        <span class="pf-tag error">Error</span>
+      </div>
+    </section>
+    <section class="pf-card">
+      <h2>Table</h2>
+      <table class="pf-table">
+        <thead><tr><th>Item</th><th>Status</th><th class="num">Quantity</th></tr></thead>
+        <tbody><tr><td>Sample</td><td><span class="pf-tag success">Ready</span></td><td class="num">1,280</td></tr></tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>

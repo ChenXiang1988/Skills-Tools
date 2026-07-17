@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "pm-flow project_config.json",
+  "type": "object",
+  "properties": {
+    "artifacts": {
+      "type": "object",
+      "description": "stage key -> artifact path or glob, relative to project root",
+      "properties": {
+        "context_confirmation": { "$ref": "#/definitions/path_or_paths" },
+        "requirement_analysis": { "$ref": "#/definitions/path_or_paths" },
+        "scenario_catalog": { "$ref": "#/definitions/path_or_paths" },
+        "use_cases": { "$ref": "#/definitions/path_or_paths" },
+        "end_to_end_flow": { "$ref": "#/definitions/path_or_paths" },
+        "metrics_definition": { "$ref": "#/definitions/path_or_paths" },
+        "artifact_plan": { "$ref": "#/definitions/path_or_paths" },
+        "research": { "$ref": "#/definitions/path_or_paths" },
+        "boundary": { "$ref": "#/definitions/path_or_paths" },
+        "prototype": { "$ref": "#/definitions/path_or_paths" },
+        "prd": { "$ref": "#/definitions/path_or_paths" },
+        "review": { "$ref": "#/definitions/path_or_paths" }
+      },
+      "additionalProperties": false
+    },
+    "workspace": {
+      "type": "object",
+      "description": "Confirmed workspace binding. The plugin writes only under .pm-flow by default and stops when the workspace root changes.",
+      "properties": {
+        "root": { "type": "string" },
+        "realpath": { "type": "string" },
+        "confirmed_at": { "type": "string" },
+        "confirmed_by": { "type": "string" },
+        "plugin_workdir": {
+          "type": "string",
+          "default": ".pm-flow/work"
+        },
+        "preserve_existing_structure": {
+          "type": "boolean",
+          "default": true
+        },
+        "stop_on_mismatch": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": [
+        "root",
+        "realpath",
+        "confirmed_at",
+        "confirmed_by",
+        "plugin_workdir",
+        "preserve_existing_structure",
+        "stop_on_mismatch"
+      ],
+      "additionalProperties": false
+    },
+    "knowledge_base": {
+      "type": "object",
+      "description": "Confirmed knowledge-base binding. Product work stops when this is unconfirmed, moved, missing, or explicitly invalid.",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["unconfirmed", "confirmed"]
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["unknown", "none", "root", "files"]
+        },
+        "root": {
+          "type": ["string", "null"]
+        },
+        "realpath": {
+          "type": ["string", "null"]
+        },
+        "manifest": {
+          "type": ["string", "null"]
+        },
+        "sources": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "confirmed_at": {
+          "type": ["string", "null"]
+        },
+        "confirmed_by": {
+          "type": ["string", "null"]
+        },
+        "no_knowledge_base_reason": {
+          "type": ["string", "null"]
+        },
+        "stop_on_mismatch": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": [
+        "status",
+        "mode",
+        "sources",
+        "stop_on_mismatch"
+      ],
+      "additionalProperties": false
+    },
+    "context": {
+      "$ref": "context_schema.json"
+    }
+  },
+  "definitions": {
+    "path_or_paths": {
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "version": "1.0",
+  "description": "Hard gates required before each stage can close. global_preflight applies to every stage and includes context confirmation plus requirement analysis artifacts.",
+  "global_preflight": {
+    "required_artifacts": [
+      "requirement_analysis.md",
+      "scenario-catalog.md",
+      "use-cases.md",
+      "end-to-end-flow.md",
+      "metrics-definition.md",
+      "artifact-plan.md",
+      "context_confirmation.md"
+    ],
+    "semantic_checks": [
+      "Workspace root has been confirmed in .pm-flow/project_config.json; the plugin workdir is under .pm-flow/work; existing human-owned directory structure is preserved.",
+      "If the current workspace path differs from the confirmed workspace binding, work stops until the human clarifies the workspace structure or approves a rebind.",
+      "Knowledge-base path has been confirmed in .pm-flow/project_config.json, or the human has explicitly confirmed that no external knowledge base is used with a recorded reason.",
+      "If the knowledge-base root, manifest, or confirmed source list is missing, moved, or inconsistent, work stops until the human confirms the knowledge-base boundary or approves a rebind.",
+      "Context intake has been confirmed: knowledge-base usage, entry points, applicable sources, non-applicable sources, rule strength, conflicts, and citation conclusion are explicit.",
+      "pm-requirement-analysis has produced a real requirement analysis, scenario catalog, and artifact plan; the files are not empty templates or generic summaries.",
+      "pm-requirement-analysis has produced use cases and end-to-end flow coverage, or explicit non-applicability reasons are recorded.",
+      "pm-metrics-definition has produced success, input, and guardrail metrics, or explicit non-applicability reasons are recorded.",
+      "Target users, usage scenarios, problem statement, and expected outputs are explicit.",
+      "The scenario catalog is detailed to role, client surface, trigger, user action, system response, fields, post-condition, exception, and acceptance lens.",
+      "Use cases are detailed to actor, goal, preconditions, trigger, main flow, alternate or exception flow, post-condition, fields, related metrics, and acceptance lens.",
+      "End-to-end flow coverage names start/end, actors, systems, handoffs, decision branches, state changes, data touched, and exception paths.",
+      "Scope, non-scope, key constraints, dependencies, and risks are explicit.",
+      "Confirmed facts, assumptions, and open questions are separated.",
+      "Original sources, knowledge-base materials, and historical documents have been checked for errors; any errors are classified as P3/P2/P1/P0.",
+      "P1/P0 source errors block downstream PRD, prototype, diagram, or review output until corrected or explicitly accepted by an owner.",
+      "The recommended flow path is recorded: new-platform, iteration, iteration-lite, or micro.",
+      "Requirement analysis level, PRD level recommendation, and artifact routing are recorded.",
+      "The artifact plan explicitly decides whether metrics definition, use cases, end-to-end flow, PRD, field dictionary, HTML prototype, prototype review artifact, Mermaid diagram, test scenarios, delivery check, and humanizer are needed.",
+      "A fixed full workflow was not run by default; unnecessary artifacts and premature technical stack choices are marked not applicable.",
+      "Even direct user requests for PRD, prototype, diagram, or review output went through requirement analysis first."
+    ]
+  },
+  "stages": {
+    "research": {
+      "required_artifacts": [
+        "research.md"
+      ],
+      "semantic_checks": [
+        "pm-research was used for research-stage opportunity, user, market, competitor, benchmark, metric-context, source-risk, assumption, and open-question analysis.",
+        "Competitors or benchmark solutions are covered.",
+        "Project constraints are listed: glossary, roles, system surfaces, and architecture boundaries.",
+        "Opportunity, user, market, and metric analysis has been completed or explicitly marked not applicable in the requirement analysis artifacts.",
+        "The output is registered in state.json.artifacts."
+      ]
+    },
+    "boundary": {
+      "required_artifacts": [
+        "boundary.md"
+      ],
+      "semantic_checks": [
+        "pm-boundary was used for boundary-stage scope, non-scope, stakeholders, roles, permissions, surfaces, system ownership, constraints, dependencies, assumptions, risks, and decisions.",
+        "Scope and non-scope are explicit.",
+        "Roles and responsibilities are aligned to the project role source when one exists.",
+        "Terms are aligned to the glossary when one exists.",
+        "Client surfaces and system ownership are explicit.",
+        "Key assumptions have been identified and prioritized, or the non-applicability reason is recorded."
+      ]
+    },
+    "prototype": {
+      "required_artifacts": [
+        "prototypes/*.html"
+      ],
+      "semantic_checks": [
+        "The prototype opens offline without CDN dependencies.",
+        "Desktop and mobile views are available when required by the artifact plan.",
+        "Fields and rule documentation are linked when a review document is produced.",
+        "pm-html-prototype was used for HTML prototype output, unless the requirement analysis says no HTML prototype is needed.",
+        "Design guidelines or component-library rules from the knowledge base were applied; if missing, built-in baseline design assumptions are recorded.",
+        "When a frontend component library is specified, component mapping and version/API constraints were checked or marked not applicable.",
+        "Loading, empty, error, permission, timeout, duplicate-action, and concurrent states are covered when required by scenarios or acceptance criteria.",
+        "Terminology is aligned to the glossary when one exists."
+      ]
+    },
+    "prd": {
+      "required_artifacts": [
+        "prd.md"
+      ],
+      "semantic_checks": [
+        "pm-prd was used for PRD sizing and template selection.",
+        "The PRD level is explicit: L1, L2, or L3.",
+        "The PRD satisfies the required sections for its level.",
+        "Terminology is aligned to the glossary when one exists.",
+        "Roles are aligned to the role source when one exists.",
+        "Client surfaces and system ownership are explicit.",
+        "Acceptance criteria and exception flows are included.",
+        "Acceptance criteria are observable and testable, not subjective-only wording such as easy to use or beautiful.",
+        "Metrics definition, scenario catalog, use cases, and end-to-end flow are referenced or explicitly marked not applicable.",
+        "L2/L3 conditional branches have standalone Mermaid diagrams in the diagram directory, or the non-applicability reason is recorded.",
+        "L2/L3 fields, data sources, permissions, or write-back behavior have a field dictionary, or the non-applicability reason is recorded.",
+        "L3 or complex state-transition requirements include state-machine guidance, data dictionary, use cases, or an explicit non-applicability note.",
+        "Acceptance criteria can be converted into test scenarios, or the non-applicability reason is recorded.",
+        "The PRD has been polished with humanizer without changing facts, scope, or acceptance criteria, or the non-applicability reason is recorded.",
+        "Open questions are not written as facts.",
+        "Key decisions are recorded in state.json.decisions."
+      ]
+    },
+    "review": {
+      "required_artifacts": [
+        "review.md"
+      ],
+      "semantic_checks": [
+        "pm-review was used for general independent review-stage findings, decision checks, readiness conclusion, and close checklist.",
+        "Independent review has been performed according to pm-review guidance.",
+        "Each finding is closed or explicitly recorded as unresolved.",
+        "Prototype review artifacts are generated only when requirement analysis says they are needed.",
+        "High-risk requirements have a risk review; code-shipping or AI-built app requirements have a delivery-check artifact plan, or the non-applicability reason is recorded.",
+        "Decision records are complete in state.json.decisions.",
+        "All previous stages are closed."
+      ]
+    }
+  }
+}

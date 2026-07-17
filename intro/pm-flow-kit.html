@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pm-flow-kit 插件介绍</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --ink: #1c2024;
+    --ink-soft: #4a525c;
+    --ink-faint: #8a929c;
+    --line: #e4e7ec;
+    --line-soft: #eef1f4;
+    --accent: #2f6feb;
+    --accent-soft: #e8f0fe;
+    --accent-ink: #1c4fc4;
+    --code-bg: #f3f5f8;
+    --code-ink: #2b3036;
+    --quote-bar: #cdd5df;
+    --radius: 12px;
+    --maxw: 880px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Top nav */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(247,248,250,0.85);
+    backdrop-filter: saturate(180%) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .brand {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+    letter-spacing: .2px;
+    white-space: nowrap;
+  }
+  .brand .mono { color: var(--accent-ink); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  nav.links { display: flex; gap: 14px; flex-wrap: wrap; margin-left: auto; }
+  nav.links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 13.5px;
+    padding: 4px 2px;
+    border-bottom: 2px solid transparent;
+    transition: color .15s, border-color .15s;
+  }
+  nav.links a:hover { color: var(--accent-ink); border-bottom-color: var(--accent); }
+
+  /* Hero */
+  header.hero {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 56px 24px 28px;
+  }
+  .eyebrow {
+    display: inline-block;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: .6px;
+    color: var(--accent-ink);
+    background: var(--accent-soft);
+    padding: 4px 11px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: 36px;
+    line-height: 1.2;
+    margin: 0 0 14px;
+    letter-spacing: -0.5px;
+  }
+  .lede {
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 60ch;
+  }
+
+  main {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 8px 24px 80px;
+  }
+  section { padding-top: 30px; }
+  h2 {
+    font-size: 23px;
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+    letter-spacing: -0.2px;
+  }
+  h3 {
+    font-size: 17.5px;
+    margin: 26px 0 8px;
+    color: var(--ink);
+  }
+  p { margin: 12px 0; }
+  a.anchor { color: inherit; text-decoration: none; }
+
+  /* Lists */
+  ul.tight { margin: 10px 0; padding-left: 20px; }
+  ul.tight li { margin: 6px 0; }
+
+  /* Callout */
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin: 18px 0;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+
+  /* Tables */
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin: 18px 0;
+    background: var(--surface);
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+  th, td {
+    text-align: left;
+    padding: 11px 15px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  th {
+    background: #fafbfc;
+    color: var(--ink-soft);
+    font-weight: 600;
+    font-size: 13.5px;
+    letter-spacing: .2px;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td code, th code { white-space: nowrap; }
+
+  /* Code */
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.88em;
+    background: var(--code-bg);
+    color: var(--code-ink);
+    padding: 2px 6px;
+    border-radius: 6px;
+  }
+  pre {
+    background: #1d2127;
+    color: #e6e9ee;
+    padding: 18px 20px;
+    border-radius: var(--radius);
+    overflow-x: auto;
+    font-size: 13.5px;
+    line-height: 1.65;
+    margin: 16px 0;
+  }
+  pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  /* Blockquote */
+  blockquote {
+    margin: 16px 0;
+    padding: 4px 0 4px 18px;
+    border-left: 3px solid var(--quote-bar);
+    color: var(--ink-soft);
+    font-style: normal;
+  }
+  blockquote p { margin: 6px 0; }
+
+  .kbd-note { color: var(--ink-faint); font-size: 13px; }
+
+  footer {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 28px 24px 60px;
+    color: var(--ink-faint);
+    font-size: 13px;
+    border-top: 1px solid var(--line);
+  }
+  @media (max-width: 560px) {
+    h1 { font-size: 28px; }
+    nav.links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="brand"><span class="mono">pm-flow-kit</span> 插件介绍</span>
+    <nav class="links">
+      <a href="#problem">问题</a>
+      <a href="#who">适用人群</a>
+      <a href="#capabilities">核心能力</a>
+      <a href="#flow">工作流程</a>
+      <a href="#scenes">使用场景</a>
+      <a href="#diff">区别</a>
+      <a href="#examples">示例</a>
+      <a href="#boundary">边界</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <span class="eyebrow">PRODUCT DELIVERY KIT</span>
+  <h1>pm-flow-kit</h1>
+  <p class="lede">一套面向产品经理和产品型 Agent 的需求交付插件。它让 Agent 按"调研 → 边界 → 原型 → PRD → 评审"的顺序推进产品工作，并把工作区、知识库边界、产物、决策、上下文和门禁（阶段关闭前的检查项）都保留下来。</p>
+</header>
+
+<main>
+
+  <section id="problem">
+    <h2><a class="anchor" href="#problem">它解决什么问题</a></h2>
+    <p>很多 AI 工具都能写 PRD、画原型、总结需求，但常见问题就这几个：</p>
+    <ul class="tight">
+      <li><strong>跳步骤</strong>：还没澄清边界，PRD 已经写完了。</li>
+      <li><strong>把假设当事实</strong>。</li>
+      <li>不知道什么时候该查知识库，什么时候该记下"此处不适用"。</li>
+      <li>写出来的 PRD 看着完整，却没法评审、没法验收、没法交付。</li>
+      <li>原型、PRD、流程图、评审各自为政，对不上。</li>
+    </ul>
+    <div class="callout"><code>pm-flow-kit</code> 要解决的，就是"AI 能写东西，但不一定按产品流程交付"这件事。它把产品工作拆成可追踪的阶段，让 Agent 在每一步都清楚：现在该做什么、要产出什么、引用哪份规范、什么时候能关闭这个阶段。</div>
+  </section>
+
+  <section id="who">
+    <h2><a class="anchor" href="#who">适合谁用</a></h2>
+    <ul class="tight">
+      <li><strong>产品经理</strong>：把模糊需求推进成可评审、可交付的方案。</li>
+      <li><strong>业务负责人</strong>：让需求过程透明，少做口头确认，少返工。</li>
+      <li><strong>设计 / 研发 / 测试</strong>：拿到边界清楚、规则明确、验收能落地的材料。</li>
+      <li><strong>用 AI Agent 的团队</strong>：让 Agent 不只是吐文本，而是按产品工作流协作。</li>
+    </ul>
+  </section>
+
+  <section id="capabilities">
+    <h2><a class="anchor" href="#capabilities">核心能力</a></h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>能力</th><th>对应 skill</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>流程总控</td><td><code>pm-flow</code></td><td>管理阶段、状态、产物、决策和门禁</td></tr>
+          <tr><td>上下文约束</td><td><code>pm-context-contract</code></td><td>管理知识库、领域规范、输入材料与冲突优先级</td></tr>
+          <tr><td>HTML 原型</td><td><code>pm-html-prototype</code></td><td>生成离线 HTML 原型、设备框、设计规范引用和组件库映射</td></tr>
+          <tr><td>原型评审</td><td><code>pm-prototype-review</code></td><td>生成原型评审件、字段规则联动和评审材料；只在需要评审件时使用</td></tr>
+          <tr><td>PRD 写作</td><td><code>pm-prd</code></td><td>按需求量级输出 L1 / L2 / L3 PRD</td></tr>
+          <tr><td>指标定义</td><td><code>pm-metrics-definition</code></td><td>定义业务指标、用户行为指标、输入指标、护栏指标、基线、数据源和判断阈值</td></tr>
+          <tr><td>图表生成</td><td><code>pm-mermaid-diagram</code></td><td>画流程图、泳道图、状态机、时序图等 Mermaid 图表</td></tr>
+          <tr><td>文档润色</td><td><code>humanizer</code></td><td>去掉 PRD 的 AI 味，只改表达，不动事实</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="flow">
+    <h2><a class="anchor" href="#flow">工作流程</a></h2>
+    <p>默认把一个需求拆成五个阶段：</p>
+    <pre><code>research → boundary → prototype → prd → review</code></pre>
+    <p>不同需求走不同路径：</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>类型</th><th>适用场景</th><th>阶段</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>new-platform</code></td><td>新平台、新业务、新系统</td><td>research → boundary → prototype → prd → review</td></tr>
+          <tr><td><code>iteration</code></td><td>常规产品迭代</td><td>boundary → prototype → prd → review</td></tr>
+          <tr><td><code>micro</code></td><td>小改动、轻量需求</td><td>prd → review</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>每个阶段都要求有产物和检查项。不能只说"做完了"，得看得到文件、决策和门禁确认。</p>
+  </section>
+
+  <section id="scenes">
+    <h2><a class="anchor" href="#scenes">典型使用场景</a></h2>
+
+    <h3>1. 从一句话需求到 PRD</h3>
+    <p>用户只丢一句话过来，比如：</p>
+    <blockquote><p>我们想做一个退款审批流程。</p></blockquote>
+    <p><code>pm-flow-kit</code> 会先让 Agent 把目标用户、业务场景、范围、非范围、关键状态和验收标准问清楚，而不是直接甩一份大 PRD 出来。</p>
+
+    <h3>2. 引用知识库和领域规范</h3>
+    <p>项目里只要有知识库、术语表、业务规则、设计规范或组件库，<code>pm-flow</code> 会先确认知识库路径或确认"不使用外部知识库"，再由 <code>pm-context-contract</code> 定好上下文读取规则。Agent 只读当前阶段相关的资料，不会把整个知识库一股脑塞进上下文。</p>
+
+    <h3>3. 生成 HTML 原型</h3>
+    <p><code>pm-html-prototype</code> 生成的原型可以离线打开，支持：</p>
+    <ul class="tight">
+      <li>PC / 手机 / PDA 视图</li>
+      <li>钉钉进步体字体</li>
+      <li>界面字段和右侧规则文档通过 <code>data-link</code> 联动</li>
+      <li>本地打开，不依赖 CDN</li>
+    </ul>
+    <p>知识库里有设计规范或组件库就优先引用；没有，就用内置基础规范自闭环，同时把设计假设记下来。</p>
+
+    <h3>4. 输出合适量级的 PRD</h3>
+    <p><code>pm-prd</code> 不先套厚模板，而是先判断需求量级：</p>
+    <ul class="tight">
+      <li><strong>L1</strong>：轻量 PRD，适合小改动。</li>
+      <li><strong>L2</strong>：标准 PRD，适合常规迭代。</li>
+      <li><strong>L3</strong>：深度 PRD，适合复杂业务、复杂状态、跨角色或跨系统需求。</li>
+    </ul>
+
+    <h3>5. 画流程图和泳道图</h3>
+    <p><code>pm-mermaid-diagram</code> 支持流程图、状态机、时序图和泳道图。凡是涉及"谁负责哪一步""跨部门怎么协作""角色和系统如何交接"的需求，优先出泳道图。</p>
+
+    <h3>6. PRD 去 AI 味</h3>
+    <p>PRD 内容定下来之后，用 <code>humanizer</code> 做最后一层表达润色。它只改表达，不允许动这些：</p>
+    <ul class="tight">
+      <li>需求事实</li>
+      <li>范围和非范围</li>
+      <li>业务规则</li>
+      <li>字段含义</li>
+      <li>验收标准</li>
+      <li>决策和待确认事项</li>
+    </ul>
+  </section>
+
+  <section id="diff">
+    <h2><a class="anchor" href="#diff">和普通 PRD 工具的区别</a></h2>
+    <p>普通 PRD 工具盯着"生成一份文档"。<code>pm-flow-kit</code> 盯着"把需求按工作流推进到能评审、能交付"。差别在这几点：</p>
+    <ul class="tight">
+      <li>有阶段状态，不会跳步。</li>
+      <li>有门禁检查，不能口头"完成"。</li>
+      <li>能先确认知识库边界，再引用知识库，不乱用上下文。</li>
+      <li>能同时产出原型、PRD、图表和评审材料。</li>
+      <li>能按需求量级选文档深度。</li>
+      <li>能记录假设和"不适用"的原因。</li>
+    </ul>
+  </section>
+
+  <section id="examples">
+    <h2><a class="anchor" href="#examples">使用示例</a></h2>
+
+    <h3>启动一个常规迭代</h3>
+    <pre><code>使用 pm-flow-kit，启动一个 iteration 类型的产品需求流程。
+
+项目名：退款审批优化
+需求名：新增退款审批工作台
+
+请先判断当前阶段，按 pm-flow 的流程推进，不要直接写 PRD。
+如果需要上下文，请通过 pm-context-contract 读取 manifest。</code></pre>
+
+    <h3>生成 HTML 原型</h3>
+    <pre><code>使用 pm-html-prototype 生成一个离线 HTML 原型。
+
+场景：退款审批工作台
+角色：客服、财务、系统
+设备：PC
+页面：申请列表、申请详情、审核弹窗、驳回原因弹窗
+
+如果知识库里有设计规范和组件库，请先通过 pm-context-contract 引用。
+如果没有，请使用内置基础规范自闭环，并记录设计假设。</code></pre>
+
+    <h3>生成 PRD</h3>
+    <pre><code>使用 pm-prd 输出 PRD。
+
+请先判断 PRD 等级：L1 / L2 / L3。
+再选择对应模板。
+如果涉及跨角色流程，请用 pm-mermaid-diagram 输出泳道图。
+PRD 内容确认后，再用 humanizer 去 AI 味，但不能改变需求事实。</code></pre>
+  </section>
+
+  <section id="boundary">
+    <h2><a class="anchor" href="#boundary">使用边界</a></h2>
+    <p><code>pm-flow-kit</code> 不是万能产品经理，也替代不了团队决策。它适合帮团队做这些事：</p>
+    <ul class="tight">
+      <li>梳理需求</li>
+      <li>管理流程</li>
+      <li>产出文档</li>
+      <li>生成原型</li>
+      <li>引用规范</li>
+      <li>做阶段检查</li>
+    </ul>
+    <p>它不该被用来：</p>
+    <ul class="tight">
+      <li>绕过业务负责人确认</li>
+      <li>替代真实用户研究</li>
+      <li>把假设当事实</li>
+      <li>没依据时编造规范</li>
+      <li>为了视觉效果改业务规则</li>
+    </ul>
+  </section>
+
+  <section id="pitch">
+    <h2><a class="anchor" href="#pitch">推荐介绍语</a></h2>
+    <p>可以这样跟别人介绍：</p>
+    <blockquote><p><code>pm-flow-kit</code> 是一套产品需求交付插件。它让 AI Agent 不只是写 PRD，而是按产品经理的工作流推进需求：先澄清边界，再做原型，再写 PRD，最后评审。它能引用团队知识库和设计规范，也能在没有规范时自闭环生成原型，并把假设记下来。</p></blockquote>
+    <p>短一点的版本：</p>
+    <blockquote><p><code>pm-flow-kit</code> 是一个让 Agent 按产品流程交付需求的插件，覆盖需求澄清、HTML 原型、PRD、流程图、评审和文档润色。</p></blockquote>
+  </section>
+
+</main>
+
+<footer>
+  pm-flow-kit 插件介绍 · 单页文档 · 离线可用，无外部依赖
+</footer>
+
+</body>
+</html>

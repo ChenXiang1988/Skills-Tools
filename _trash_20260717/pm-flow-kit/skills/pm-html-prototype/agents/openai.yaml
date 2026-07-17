@@ -1,0 +1,4 @@
+interface:
+  display_name: "PM HTML Prototype"
+  short_description: "Create offline HTML prototypes from product requirements and design constraints."
+  default_prompt: "Use $pm-html-prototype to create an offline HTML prototype for this requirement."

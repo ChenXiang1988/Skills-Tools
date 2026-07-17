@@ -1,0 +1,4 @@
+interface:
+  display_name: "PM Prototype Review"
+  short_description: "Create review artifacts that map prototype UI to rules and findings."
+  default_prompt: "Use $pm-prototype-review when this requirement needs a separate prototype review artifact."

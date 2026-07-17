@@ -1,0 +1,4 @@
+interface:
+  display_name: "PM Flow"
+  short_description: "Orchestrate product workflow stages, gates, artifacts, and decisions."
+  default_prompt: "Use $pm-flow to start or resume a gated product requirement workflow."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "PM Metrics Definition"
+  short_description: "Define success, input, and guardrail metrics for a product requirement."
+  default_prompt: "Use $pm-metrics-definition to define measurable product success before writing downstream artifacts."

@@ -1,0 +1,200 @@
+/* ============================================================
+ * prototype-doc.css — 原型评审件（界面 ↔ 文档 双栏）
+ * 复用 zhp-html-prototype 的 design-tokens 思路，本地化变量。
+ * 左侧 = 真实 UI 原型；右侧 = 琥珀色需求/规则文档。
+ * 连线由 connect-lines.js 动态生成，本文件只管样式与高亮态。
+ * ============================================================ */
+@font-face {
+  font-family: "DingTalk JinBuTi";
+  src: url("fonts/DingTalk-JinBuTi.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-brand: "DingTalk JinBuTi";
+  --font: var(--font-brand), -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --doc-amber-bg: #fff8e6;
+  --doc-amber-bg-soft: #fef3c7;
+  --doc-amber-border: #f5d98a;
+  --doc-amber-text: #5b4a1f;
+  --doc-amber-head: #92670a;
+  --conn-color: #d4a017;
+  --conn-color-active: #e8850c;
+  --link-bg: #fff3d1;
+  --link-bg-active: #ffe9a8;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--font);
+}
+
+/* 顶栏：视图切换 */
+.doc-topbar {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  background: #fff;
+  border-bottom: 1px solid var(--border, #e5e7eb);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.doc-topbar .title { font-weight: 600; font-size: 14px; color: #1f2329; }
+.doc-topbar .spacer { flex: 1; }
+.view-toggle { display: inline-flex; border: 1px solid #d0d5dd; border-radius: 8px; overflow: hidden; }
+.view-toggle button {
+  border: 0; background: #f5f6f8; padding: 6px 14px; font-size: 13px;
+  color: #4e5969; cursor: pointer;
+}
+.view-toggle button.active { background: #1677ff; color: #fff; }
+
+/* 评审舞台：相对定位，承载 SVG 连线层 */
+.review-stage {
+  position: relative;
+  display: flex;
+  gap: 0;
+  height: calc(100vh - 48px);
+  overflow: hidden;
+  background: #f0f2f5;
+}
+
+/* 左：UI 原型面板 */
+.pane-ui {
+  flex: 1 1 50%;
+  min-width: 0;
+  overflow: auto;
+  padding: 20px;
+  background: #f0f2f5;
+}
+/* 右：文档面板（琥珀色） */
+.pane-doc {
+  flex: 1 1 50%;
+  min-width: 0;
+  overflow: auto;
+  padding: 20px 24px;
+  background: var(--doc-amber-bg);
+  border-left: 1px solid var(--doc-amber-border);
+}
+
+/* 连线 SVG 层 */
+#conn-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+.conn-path {
+  fill: none;
+  stroke: var(--conn-color);
+  stroke-width: 1.5;
+  stroke-opacity: 0.45;
+  stroke-dasharray: 4 3;
+  transition: stroke-opacity .15s, stroke-width .15s;
+}
+.conn-path.is-active {
+  stroke: var(--conn-color-active);
+  stroke-width: 2.5;
+  stroke-opacity: 1;
+  stroke-dasharray: none;
+}
+
+/* 高亮联动：UI 端 / 文档端 */
+.is-linked {
+  background: var(--link-bg-active) !important;
+  box-shadow: 0 0 0 2px var(--conn-color-active) !important;
+  border-radius: 6px;
+  transition: background .12s, box-shadow .12s;
+}
+.pane-doc .is-linked {
+  background: var(--link-bg-active) !important;
+  outline: 2px solid var(--conn-color-active);
+  outline-offset: 1px;
+  border-radius: 6px;
+}
+.is-locked { background: var(--link-bg-active) !important; }
+
+/* —— 左 UI 内卡片（复用原 design-tokens 观感）—— */
+.ui-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  max-width: 460px;
+}
+.ui-card h3 { margin: 0 0 12px; font-size: 15px; color: #1f2329; }
+.field { margin-bottom: 12px; }
+.field label { display: block; font-size: 13px; color: #4e5969; margin-bottom: 4px; }
+.field input, .field select {
+  width: 100%; height: 34px; padding: 0 10px; font-size: 13px;
+  border: 1px solid #d0d5dd; border-radius: 6px; box-sizing: border-box;
+  background: #fff; color: #1f2329;
+}
+.field .hint { font-size: 12px; color: #86909c; margin-top: 4px; }
+.ui-actions { display: flex; gap: 8px; margin-top: 6px; }
+.btn { height: 32px; padding: 0 16px; border-radius: 6px; font-size: 13px; border: 1px solid transparent; cursor: pointer; }
+.btn-primary { background: #1677ff; color: #fff; }
+.btn-default { background: #fff; border-color: #d0d5dd; color: #4e5969; }
+.btn-danger { background: #fff; border-color: #f5b8b8; color: #d4380d; }
+.btn-danger:hover { background: #fff1f0; }
+
+/* 校验结果框（集货 confirm 前的比对呈现） */
+.verify-box { border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px 10px; background: #fafbfc; }
+.v-row { font-size: 13px; line-height: 1.8; }
+.v-row.ok { color: #0a8f3c; }
+.v-row.bad { color: #d4380d; font-weight: 600; }
+
+/* —— 右文档条目 —— */
+.doc-sec { margin-bottom: 18px; }
+.doc-sec h4 {
+  margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--doc-amber-head);
+  letter-spacing: .3px;
+}
+.doc-item {
+  padding: 8px 10px; margin-bottom: 6px; border-radius: 6px;
+  font-size: 13px; line-height: 1.6; color: var(--doc-amber-text);
+  cursor: pointer;
+}
+.doc-item b { color: var(--doc-amber-head); }
+.doc-item .tag {
+  display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 4px;
+  background: var(--doc-amber-bg-soft); border: 1px solid var(--doc-amber-border);
+  color: var(--doc-amber-head); margin-right: 6px;
+}
+.doc-note {
+  font-size: 12px; color: #92751f; background: var(--doc-amber-bg-soft);
+  border: 1px dashed var(--doc-amber-border); border-radius: 6px; padding: 8px 10px; margin-top: 4px;
+}
+
+/* —— 移动端视图：上下布局，UI 在设备框内、文档在下方 —— */
+.review-stage.view-mobile {
+  flex-direction: column;
+  height: auto;
+  overflow: visible;
+  background: #fff;
+}
+.review-stage.view-mobile .pane-ui {
+  flex: none;
+  overflow: visible;
+  padding: 16px;
+}
+.review-stage.view-mobile .pane-doc {
+  flex: none;
+  border-left: 0;
+  border-top: 1px solid var(--doc-amber-border);
+}
+.review-stage.view-mobile #conn-svg { display: none; }
+.mobile-wrap { display: none; }
+.review-stage.view-mobile .mobile-wrap { display: block; }
+.review-stage.view-mobile .pane-ui .ui-card { display: none; }
+.review-stage.view-mobile .pane-ui .mobile-wrap .device-iphone { margin: 0 auto; }

@@ -1,0 +1,138 @@
+/*
+ * 云仓 PDA 设计系统 · tokens.css
+ * 基底：Ant Design Mobile (antd-mobile) v5.42.2 真实设计变量
+ *      来源：antd-mobile@5.42.2 /cjs/global/theme-default.css（亮）+ theme-dark.css（暗）
+ * 形态：暗色优先（PDA 现场手持终端）。默认 :root 即暗色；<html data-theme="light"> 切亮色。
+ * 说明：antd-mobile 原生暗色触发为 html[data-prefers-color-scheme='dark']；本层为 code-first 暗色优先，
+ *      改为「:root 暗 + [data-theme='light'] 覆盖」，与 Web 端 tokens 切换方式一致。
+ * 适配层：在 antd-mobile 之上叠加 PDA 工业件（扫码 / 任务卡 / 底部 CTA / 手套触控），见 --pda-* 段。
+ * 注：antd-mobile 为 React 组件库，本系统仅借其设计语言（变量 / 规范），组件仍按 HTML 自写。
+ */
+
+:root {
+  /* ===== 1. antd-mobile 真实基础变量（暗色优先） ===== */
+
+  /* 圆角（--adm-radius-s/m/l） */
+  --pda-radius-s: 4px;
+  --pda-radius-m: 8px;
+  --pda-radius-l: 12px;
+
+  /* 字号阶梯（--adm-font-size-1..10，main 默认 13px） */
+  --pda-fs-1: 9px;
+  --pda-fs-2: 10px;
+  --pda-fs-3: 11px;
+  --pda-fs-4: 12px;
+  --pda-fs-5: 13px;
+  --pda-fs-6: 14px;
+  --pda-fs-7: 15px;
+  --pda-fs-8: 16px;
+  --pda-fs-9: 17px;
+  --pda-fs-10: 18px;
+
+  --pda-font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica,
+    "Segoe UI", Arial, Roboto, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+
+  /* 语义色（暗色值 = antd-mobile theme-dark） */
+  --pda-primary: #3086ff;   /* --adm-color-primary (dark) */
+  --pda-success: #34b368;
+  --pda-warning: #ffa930;
+  --pda-danger:  #ff4a58;
+  --pda-yellow:  #ffa930;
+  --pda-orange:  #e65a2b;
+  --pda-wathet:  #0d2543;   /* 浅蓝底：选中 / 高亮背景 */
+
+  /* 中性文字 / 边框（暗色 = antd-mobile theme-dark） */
+  --pda-text:            #e6e6e6;  /* --adm-color-text */
+  --pda-text-secondary:  #bfbfbf;  /* 次要文字（B 标准提亮：#b3→#bf） */
+  --pda-text-weak:       #8c8c8c;  /* --adm-color-weak（B 提亮：#80→#8c） */
+  --pda-text-light:      #595959;  /* --adm-color-light */
+  --pda-border:          #3d3d3d;  /* --adm-color-border（B 提亮：#2b→#3d） */
+  --pda-box:             #141414;  /* --adm-color-box（凹陷 / 分隔，B 提亮：#0a→#14） */
+  --pda-bg:              #242424;  /* --adm-color-background（页面底，B 标准提亮：#1a→#24 暗石板灰） */
+  --pda-white:           #ffffff;
+
+  /* 语义色亮版（用于暗底上的标签文字 / 图标 / 描边） */
+  --pda-success-light: #4cd389;
+  --pda-warning-light: #ffc163;
+  --pda-danger-light:  #ff7a85;
+  --pda-info-light:    #69b1ff;
+
+  /* ===== 2. PDA 适配层（工业手持终端，antd-mobile 未覆盖） ===== */
+
+  /* Surface 层级（antd-mobile 仅给 bg/box，以下为 PDA 卡片分层补充）
+     B 标准提亮：整体抬升 1.3–1.7 档，并拉大 bg↔s2↔s3 间隙，卡片明显浮起 */
+  --pda-surface-1: #242424;       /* 页面底 = --pda-bg */
+  --pda-surface-2: #2e2e2e;       /* 卡片 / 列表行 */
+  --pda-surface-3: #3a3a3a;       /* 浮层 / 按压态 */
+  --pda-surface-sunken: #141414;  /* 输入框 / 凹陷 = --pda-box */
+
+  /* 设备与触控热区（手套作业） */
+  --pda-device-w: 390px;
+  --pda-device-h: 844px;
+  --pda-touch-min: 48px;          /* 最小可点 */
+  --pda-touch-main: 56px;         /* 主操作 */
+  --pda-touch-cta: 64px;          /* 底部扫码 CTA */
+  --pda-list-row-h: 56px;
+  --pda-bottom-bar-h: 72px;
+  --pda-key-size: 56px;
+  --pda-quick-action: 56px;
+  --pda-icon-size: 24px;
+
+  /* 间距（4px 栅格） */
+  --pda-space-xs: 4px;
+  --pda-space-sm: 8px;
+  --pda-space-md: 12px;
+  --pda-space-lg: 16px;
+  --pda-space-xl: 24px;
+  --pda-space-2xl: 32px;
+
+  /* 圆角别名 */
+  --pda-radius-pill: 999px;
+
+  /* 阴影（暗色靠阴影 + 1px 描边双重表达） */
+  --pda-shadow-1: 0 1px 4px rgba(0, 0, 0, 0.4);
+  --pda-shadow-2: 0 2px 8px rgba(0, 0, 0, 0.45);
+  --pda-shadow-3: 0 4px 16px rgba(0, 0, 0, 0.5);
+
+  /* 字阶（PDA 基准 16px，手套 + 户外可视距离放大；antd-mobile main 为 13px，此处覆盖） */
+  --pda-title-l: 20px;
+  --pda-title-m: 18px;
+  --pda-body: 16px;
+  --pda-body-strong: 16px;
+  --pda-caption: 13px;
+  --pda-caption-s: 12px;
+  --pda-line-height: 1.5;
+}
+
+/* ===== 亮色主题（antd-mobile theme-default 真实值） ===== */
+[data-theme="light"] {
+  --pda-primary: #1677ff;
+  --pda-success: #00b578;
+  --pda-warning: #ff8f1f;
+  --pda-danger:  #ff3141;
+  --pda-yellow:  #ff9f18;
+  --pda-orange:  #ff6430;
+  --pda-wathet:  #e7f1ff;
+
+  --pda-text:            #333333;
+  --pda-text-secondary:  #666666;
+  --pda-text-weak:       #999999;
+  --pda-text-light:      #cccccc;
+  --pda-border:          #eeeeee;
+  --pda-box:             #f5f5f5;
+  --pda-bg:              #ffffff;
+
+  --pda-success-light: #389e0d;
+  --pda-warning-light: #d48806;
+  --pda-danger-light:  #cf1322;
+  --pda-info-light:    #0958d9;
+
+  --pda-surface-1: #ffffff;
+  --pda-surface-2: #f5f5f5;
+  --pda-surface-3: #ebebeb;
+  --pda-surface-sunken: #f0f0f0;
+
+  --pda-shadow-1: 0 1px 4px rgba(0, 0, 0, 0.08);
+  --pda-shadow-2: 0 2px 8px rgba(0, 0, 0, 0.12);
+  --pda-shadow-3: 0 4px 16px rgba(0, 0, 0, 0.18);
+}

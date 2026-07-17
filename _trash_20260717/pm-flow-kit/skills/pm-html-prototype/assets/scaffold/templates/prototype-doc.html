@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{PROJECT_NAME}} Prototype Review</title>
+  <link rel="stylesheet" href="assets/design-system/tokens.css">
+  <link rel="stylesheet" href="assets/prototype-chrome.css">
+  <link rel="stylesheet" href="assets/prototype-doc.css">
+  <link rel="stylesheet" href="assets/device-frame.css">
+</head>
+<body>
+  <header class="review-topbar"><span class="title">{{PROJECT_NAME}} Prototype Review</span></header>
+  <main class="review-stage">
+    <svg id="conn-svg"></svg>
+    <section class="pane-ui">
+      <div class="ui-card" data-link="doc-no">
+        <h3>Sample Field</h3>
+        <label>Document Number</label>
+        <input type="text" placeholder="RK20260715-018">
+      </div>
+    </section>
+    <section class="pane-doc">
+      <article class="doc-item" data-link="doc-no">
+        <h4>Business Rule</h4>
+        <p><strong>Document Number</strong> is required and must be globally unique.</p>
+      </article>
+    </section>
+  </main>
+  <script src="assets/connect-lines.js"></script>
+</body>
+</html>

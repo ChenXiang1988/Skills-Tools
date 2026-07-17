@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>云仓 Web 组件库 · Ant Design v5</title>
+<link rel="stylesheet" href="tokens.css" />
+<style>
+/* ============================================================
+   云仓 Web 组件库 — 纯 HTML + CSS 实现（锚定 Ant Design v5）
+   全部颜色 / 字号 / 间距引用 tokens.css 的 var()，无魔法值。
+   暗色：html[data-theme="dark"] 自动切换。
+   ============================================================ */
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text);
+  background: var(--color-bg-layout);
+  -webkit-font-smoothing: antialiased;
+}
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* —— 布局 —— */
+.yc-topbar {
+  position: sticky; top: 0; z-index: var(--z-index-sticky);
+  height: 56px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 var(--space-6);
+  background: var(--color-bg-container);
+  border-bottom: var(--border-width) var(--border-style) var(--color-border);
+}
+.yc-topbar h1 { font-size: var(--font-size-h3); margin: 0; font-weight: var(--font-weight-semibold); }
+.yc-theme-toggle {
+  height: var(--control-height); padding: 0 var(--space-4);
+  border: var(--border-width) var(--border-style) var(--color-border);
+  border-radius: var(--radius-base); background: var(--color-bg-container);
+  color: var(--color-text); cursor: pointer; font-size: var(--font-size-base);
+  transition: all var(--motion-duration-fast) var(--motion-ease);
+}
+.yc-theme-toggle:hover { color: var(--color-primary); border-color: var(--color-primary); }
+
+.yc-layout { display: flex; align-items: flex-start; max-width: 1280px; margin: 0 auto; }
+.yc-sidebar {
+  width: 200px; flex: none; position: sticky; top: 56px;
+  padding: var(--space-6) var(--space-4); height: calc(100vh - 56px); overflow: auto;
+}
+.yc-sidebar a {
+  display: block; padding: var(--space-2) var(--space-3); color: var(--color-text-secondary);
+  text-decoration: none; border-radius: var(--radius-base); font-size: var(--font-size-base);
+}
+.yc-sidebar a:hover { background: var(--color-fill-secondary); color: var(--color-text); }
+.yc-main { flex: 1; min-width: 0; padding: var(--space-6); }
+
+.yc-section { margin-bottom: var(--space-12); scroll-margin-top: 72px; }
+.yc-section > h2 {
+  font-size: var(--font-size-h2); margin: 0 0 var(--space-2);
+  padding-bottom: var(--space-2); border-bottom: var(--border-width) var(--border-style) var(--color-border-secondary);
+}
+.yc-section .yc-sub { color: var(--color-text-tertiary); margin: 0 0 var(--space-4); font-size: var(--font-size-caption); }
+.yc-demo {
+  background: var(--color-bg-container); border: var(--border-width) var(--border-style) var(--color-border);
+  border-radius: var(--radius-lg); padding: var(--space-6); margin-bottom: var(--space-4);
+  display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center;
+}
+.yc-rows { flex-direction: column; align-items: stretch; }
+.yc-code {
+  position: relative; background: var(--color-bg-elevated); border: var(--border-width) var(--border-style) var(--color-border);
+  border-radius: var(--radius-base); padding: var(--space-4); margin: 0 0 var(--space-4);
+  overflow: auto;
+}
+.yc-code pre { margin: 0; font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; font-size: 12.5px; line-height: 1.6; color: var(--color-text); }
+.yc-copy {
+  position: absolute; top: var(--space-2); right: var(--space-2);
+  border: var(--border-width) var(--border-style) var(--color-border); background: var(--color-bg-container);
+  color: var(--color-text-secondary); border-radius: var(--radius-sm); padding: 2px 8px; cursor: pointer; font-size: 12px;
+}
+.yc-copy:hover { color: var(--color-primary); border-color: var(--color-primary); }
+
+/* ============================================================
+   1. Button
+   ============================================================ */
+.yc-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-1);
+  height: var(--control-height); padding: var(--control-padding-vertical) var(--control-padding-horizontal-btn);
+  font-size: var(--font-size-base); line-height: 1; border-radius: var(--radius-base);
+  border: var(--border-width) var(--border-style) transparent; cursor: pointer; user-select: none;
+  transition: all var(--motion-duration-fast) var(--motion-ease); white-space: nowrap;
+}
+.yc-btn-primary { background: var(--color-primary); color: #fff; }
+.yc-btn-primary:hover { background: var(--color-primary-hover); }
+.yc-btn-primary:active { background: var(--color-primary-active); }
+.yc-btn-default { background: var(--color-bg-container); border-color: var(--color-border); color: var(--color-text); }
+.yc-btn-default:hover { color: var(--color-primary); border-color: var(--color-primary); }
+.yc-btn-dashed { background: var(--color-bg-container); border-color: var(--color-border); border-style: dashed; color: var(--color-text); }
+.yc-btn-dashed:hover { color: var(--color-primary); border-color: var(--color-primary); }
+.yc-btn-text { background: transparent; color: var(--color-primary); }
+.yc-btn-text:hover { background: var(--color-fill-secondary); }
+.yc-btn-danger { background: var(--color-error); color: #fff; }
+.yc-btn-danger:hover { background: var(--color-error-hover); }
+.yc-btn:disabled, .yc-btn.is-disabled { opacity: var(--disabled-opacity); cursor: not-allowed; }
+.yc-btn-lg { height: var(--control-height-lg); padding: 6px 20px; font-size: var(--font-size-lg); }
+.yc-btn-sm { height: var(--control-height-sm); padding: 0 8px; font-size: var(--font-size-sm); }
+.yc-btn .yc-spin { width: 12px; height: 12px; border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%; animation: yc-spin 0.8s linear infinite; display: inline-block; }
+@keyframes yc-spin { to { transform: rotate(360deg); } }
+
+/* ============================================================
+   2. Input
+   ============================================================ */
+.yc-input {
+  width: 100%; height: var(--control-height); padding: 0 var(--control-padding-horizontal);
+  font-size: var(--font-size-base); font-family: inherit; color: var(--color-text);
+  background: var(--color-bg-container); border: var(--border-width) var(--border-style) var(--color-border);
+  border-radius: var(--radius-base); outline: none; transition: all var(--motion-duration-fast) var(--motion-ease);
+}
+.yc-input::placeholder { color: var(--color-text-quaternary); }
+.yc-input:hover { border-color: var(--color-primary-hover); }
+.yc-input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 2px rgba(22,119,255,0.1); }
+.yc-input:disabled { background: var(--color-fill-secondary); color: var(--color-text-tertiary); cursor: not-allowed; }
+.yc-input.is-error { border-color: var(--color-error); }
+.yc-input.is-error:focus { box-shadow: 0 0 0 2px rgba(255,77,79,0.1); }
+.yc-input-wrap { position: relative; width: 280px; }
+.yc-input-wrap .yc-affix { position: absolute; top: 50%; transform: translateY(-50%); color: var(--color-text-tertiary); }
+.yc-input-wrap .yc-affix-left { left: var(--control-padding-horizontal); }
+.yc-input-wrap .yc-affix-right { right: var(--control-padding-horizontal); }
+.yc-input-wrap.has-left .yc-input { padding-left: 32px; }
+.yc-input-wrap.has-right .yc-input { padding-right: 32px; }
+.yc-input-msg { font-size: var(--font-size-caption); color: var(--color-error); margin-top: var(--space-1); }
+
+/* ============================================================
+   3. InputNumber
+   ============================================================ */
+.yc-input-number { display: inline-flex; width: 140px; height: var(--control-height); border: var(--border-width) var(--border-style) var(--color-border); border-radius: var(--radius-base); overflow: hidden; background: var(--color-bg-container); }
+.yc-input-number button { width: 32px; border: none; background: transparent; color: var(--color-text-secondary); cursor: pointer; font-size: 16px; }
+.yc-input-number button:hover { color: var(--color-primary); }
+.yc-input-number input { flex: 1; border: none; outline: none; text-align: center; font-size: var(--font-size-base); font-family: inherit; color: var(--color-text); background: transparent; font-variant-numeric: tabular-nums; }
+
+/* ============================================================
+   4. Select
+   ============================================================ */
+.yc-select { position: relative; width: 220px; }
+.yc-select .yc-select-trigger {
+  display: flex; align-items: center; justify-content: space-between; height: var(--control-height);
+  padding: 0 var(--control-padding-horizontal); background: var(--color-bg-container);
+  border: var(--border-width) var(--border-style) var(--color-border); border-radius: var(--radius-base);
+  cursor: pointer; color: var(--color-text);
+}
+.yc-select .yc-select-trigger:hover { border-color: var(--color-primary-hover); }
+.yc-select .arrow { color: var(--color-text-tertiary); transition: transform var(--motion-duration-fast); }
+.yc-select.open .arrow { transform: rotate(180deg); }
+.yc-select-panel {
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: var(--z-index-dropdown);
+  background: var(--color-bg-elevated); border: var(--border-width) var(--border-style) var(--color-border);
+  border-radius: var(--radius-base); box-shadow: var(--shadow-1); padding: var(--space-1); display: none;
+}
+.yc-select.open .yc-select-panel { display: block; }
+.yc-select-panel .opt { padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); cursor: pointer; color: var(--color-text); }
+.yc-select-panel .opt:hover { background: var(--color-fill-secondary); }
+.yc-select-panel .opt.active { background: var(--blue-1); color: var(--color-primary); font-weight: var(--font-weight-medium); }
+
+/* ============================================================
+   5. DatePicker
+   ============================================================ */
+.yc-datepicker { position: relative; width: 240px; }
+.yc-datepicker .yc-input { padding-right: 32px; }
+.yc-calendar {
+  position: absolute; top: calc(100% + 4px); left: 0; z-index: var(--z-index-dropdown);
+  width: 280px; background: var(--color-bg-elevated); border: var(--border-width) var(--border-style) var(--color-border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-1); padding: var(--space-3); display: none;
+}
+.yc-datepicker.open .yc-calendar { display: block; }
+.yc-calendar .cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2); font-weight: var(--font-weight-medium); }
+.yc-calendar .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.yc-calendar .cal-grid span { text-align: center; padding: 6px 0; border-radius: var(--radius-sm); font-size: var(--font-size-sm); }
+.yc-calendar .cal-grid .wd { color: var(--color-text-tertiary); font-size: 12px; }
+.yc-calendar .cal-grid .day:hover { background: var(--color-fill-secondary); cursor: pointer; }
+.yc-calendar .cal-grid .day.today { color: var(--color-primary); font-weight: var(--font-weight-semibold); }
+.yc-calendar .cal-grid .day.sel { background: var(--color-primary); color: #fff; }
+
+/* ============================================================
+   6. Checkbox & Radio
+   ============================================================ */
+.yc-check, .yc-radio { display: inline-flex; align-items: center; gap: var(--space-2); cursor: pointer; margin-right: var(--space-4); color: var(--color-text); }
+.yc-check .box, .yc-radio .dot {
+  width: 16px; height: 16px; border: var(--border-width) var(--border-style) var(--color-border);
+  display: inline-flex; align-items: center; justify-content: center; transition: all var(--motion-duration-fast);
+}
+.yc-check .box { border-radius: var(--radius-sm); }
+.yc-radio .dot { border-radius: 50%; }
+.yc-check input, .yc-radio input { display: none; }
+.yc-check input:checked + .box { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+.yc-check input:checked + .box::after { content: "✓"; font-size: 12px; }
+.yc-radio input:checked + .dot { border-color: var(--color-primary); }
+.yc-radio input:checked + .dot::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary); }
+.yc-check.is-disabled, .yc-radio.is-disabled { opacity: var(--disabled-opacity); cursor: not-allowed; }
+
+/* ============================================================
+   7. Switch
+   ============================================================ */
+.yc-switch { position: relative; width: 44px; height: 22px; border-radius: 999px; background: rgba(0,0,0,0.25); cursor: pointer; transition: background var(--motion-duration-base); border: none; }
+.yc-switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform var(--motion-duration-base); box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+.yc-switch.on { background: var(--color-primary); }
+.yc-switch.on::after { transform: translateX(22px); }
+.yc-switch:disabled { opacity: var(--disabled-opacity); cursor: not-allowed; }
+
+/* ============================================================
+   8. Table
+   ============================================================ */
+.yc-table { width: 100%; border-collapse: collapse; font-size: var(--font-size-base); background: var(--color-bg-container); border-radius: var(--radius-lg); overflow: hidden; }
+.yc-table th, .yc-table td { text-align: left; padding: var(--space-3) var(--space-4); border-bottom: var(--border-width) var(--border-style) var(--color-border-secondary); }
+.yc-table thead th { background: var(--color-fill-tertiary); color: var(--color-text-secondary); font-weight: var(--font-weight-medium); white-space: nowrap; }
+.yc-table tbody tr:hover { background: var(--color-fill-secondary); }
+.yc-table td.num, .yc-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.yc-table .yc-tag { margin: 0; }
+
+/* ============================================================
+   9. Tag
+   ============================================================ */
+.yc-tag { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; font-size: 12px; line-height: 20px; border: var(--border-width) var(--border-style) transparent; border-radius: var(--radius-sm); white-space: nowrap; }
+.yc-tag-default { background: var(--color-fill-secondary); color: var(--color-text-secondary); border-color: var(--color-border-secondary); }
+.yc-tag-success { background: var(--blue-1); color: var(--color-success); border-color: var(--color-success); }
+.yc-tag-processing { background: var(--blue-1); color: var(--color-primary); border-color: var(--color-primary); }
+.yc-tag-warning { background: #fffbe6; color: var(--color-warning); border-color: var(--color-warning); }
+.yc-tag-error { background: #fff1f0; color: var(--color-error); border-color: var(--color-error); }
+/* 业务状态语义（仓库专用，见状态色板） */
+.yc-tag-biz-ready { background: var(--blue-1); color: var(--color-primary); }
+.yc-tag-biz-doing { background: #fffbe6; color: var(--color-warning); }
+.yc-tag-biz-done { background: #f6ffed; color: var(--color-success); }
+.yc-tag-biz-exception { background: #fff1f0; color: var(--color-error); }
+
+/* ============================================================
+   10. Badge
+   ============================================================ */
+.yc-badge { position: relative; display: inline-flex; }
+.yc-badge .yc-badge-count { position: absolute; top: -8px; right: -8px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--color-error); color: #fff; font-size: 11px; line-height: 18px; text-align: center; border: 2px solid var(--color-bg-container); }
+.yc-badge .yc-badge-dot { position: absolute; top: -3px; right: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--color-error); border: 2px solid var(--color-bg-container); }
+.yc-badge .yc-badge-count.yc-badge-success { background: var(--color-success); }
+
+/* ============================================================
+   11. Modal
+   ============================================================ */
+.yc-mask { position: fixed; inset: 0; background: var(--color-bg-mask); z-index: var(--z-index-modal); display: flex; align-items: center; justify-content: center; }
+.yc-modal { width: 440px; background: var(--color-bg-elevated); border-radius: var(--radius-lg); box-shadow: var(--shadow-2); }
+.yc-modal-head { padding: var(--space-4) var(--space-6); font-size: var(--font-size-h3); font-weight: var(--font-weight-semibold); border-bottom: var(--border-width) var(--border-style) var(--color-border-secondary); }
+.yc-modal-body { padding: var(--space-6); color: var(--color-text-secondary); }
+.yc-modal-foot { padding: var(--space-3) var(--space-6); display: flex; justify-content: flex-end; gap: var(--space-3); border-top: var(--border-width) var(--border-style) var(--color-border-secondary); }
+
+/* ============================================================
+   12. Drawer
+   ============================================================ */
+.yc-drawer-mask { position: fixed; inset: 0; background: var(--color-bg-mask); z-index: var(--z-index-drawer); }
+.yc-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 380px; background: var(--color-bg-elevated); box-shadow: var(--shadow-3); display: flex; flex-direction: column; z-index: calc(var(--z-index-drawer) + 1); }
+.yc-drawer-head { padding: var(--space-4) var(--space-6); font-weight: var(--font-weight-semibold); border-bottom: var(--border-width) var(--border-style) var(--color-border-secondary); }
+.yc-drawer-body { flex: 1; padding: var(--space-6); overflow: auto; color: var(--color-text-secondary); }
+.yc-drawer-foot { padding: var(--space-3) var(--space-6); display: flex; justify-content: flex-end; gap: var(--space-3); border-top: var(--border-width) var(--border-style) var(--color-border-secondary); }
+
+/* ============================================================
+   13. Alert
+   ============================================================ */
+.yc-alert { display: flex; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-base); border: var(--border-width) var(--border-style) transparent; margin-bottom: var(--space-3); }
+.yc-alert .yc-alert-icon { flex: none; font-weight: var(--font-weight-bold); }
+.yc-alert .yc-alert-body { flex: 1; }
+.yc-alert .yc-alert-title { font-weight: var(--font-weight-medium); margin-bottom: 2px; }
+.yc-alert .yc-alert-desc { font-size: var(--font-size-sm); color: var(--color-text-secondary); }
+.yc-alert-success { background: #f6ffed; border-color: #b7eb8f; color: #389e0d; }
+.yc-alert-info { background: var(--blue-1); border-color: var(--blue-5); color: var(--color-primary-active); }
+.yc-alert-warning { background: #fffbe6; border-color: #ffe58f; color: #d48806; }
+.yc-alert-error { background: #fff1f0; border-color: #ffa39e; color: #cf1322; }
+
+/* ============================================================
+   14. Progress
+   ============================================================ */
+.yc-progress-line { width: 100%; }
+.yc-progress-line .track { height: 8px; background: var(--color-fill-secondary); border-radius: 999px; overflow: hidden; }
+.yc-progress-line .fill { height: 100%; background: var(--color-primary); border-radius: 999px; transition: width var(--motion-duration-slow); }
+.yc-progress-line .fill.success { background: var(--color-success); }
+.yc-progress-line .fill.exception { background: var(--color-error); }
+.yc-progress-line .lab { font-size: var(--font-size-sm); margin-top: var(--space-1); color: var(--color-text-secondary); }
+.yc-progress-circle { position: relative; width: 80px; height: 80px; }
+.yc-progress-circle svg { transform: rotate(-90deg); }
+.yc-progress-circle .pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); font-variant-numeric: tabular-nums; }
+
+/* ============================================================
+   15. Tabs
+   ============================================================ */
+.yc-tabs-nav { display: flex; gap: var(--space-6); border-bottom: var(--border-width) var(--border-style) var(--color-border); margin-bottom: var(--space-4); }
+.yc-tabs-nav .tab { padding: var(--space-2) 0; cursor: pointer; color: var(--color-text-secondary); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.yc-tabs-nav .tab:hover { color: var(--color-primary); }
+.yc-tabs-nav .tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); font-weight: var(--font-weight-medium); }
+
+/* ============================================================
+   16. Statistic (KPI 卡)
+   ============================================================ */
+.yc-stat { background: var(--color-bg-container); border: var(--border-width) var(--border-style) var(--color-border); border-radius: var(--radius-lg); padding: var(--space-5); }
+.yc-stat .yc-stat-label { color: var(--color-text-tertiary); font-size: var(--font-size-sm); margin-bottom: var(--space-2); }
+.yc-stat .yc-stat-value { font-size: var(--font-size-display); font-weight: var(--font-weight-semibold); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.yc-stat .yc-stat-trend { font-size: var(--font-size-sm); margin-top: var(--space-2); }
+.yc-stat .up { color: var(--color-success); }
+.yc-stat .down { color: var(--color-error); }
+
+/* ============================================================
+   17. 状态色板（业务语义）
+   ============================================================ */
+.yc-palette { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-3); }
+.yc-swatch { border: var(--border-width) var(--border-style) var(--color-border); border-radius: var(--radius-base); overflow: hidden; }
+.yc-swatch .chip { height: 48px; }
+.yc-swatch .meta { padding: var(--space-2) var(--space-3); }
+.yc-swatch .meta .name { font-weight: var(--font-weight-medium); }
+.yc-swatch .meta .hex { font-size: 12px; color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+
+<div class="yc-topbar">
+  <h1>云仓 Web 组件库 · Ant Design v5</h1>
+  <button class="yc-theme-toggle" id="themeToggle">切换暗色 / 亮色</button>
+</div>
+
+<div class="yc-layout">
+  <nav class="yc-sidebar">
+    <a href="#btn">Button 按钮</a>
+    <a href="#input">Input 输入框</a>
+    <a href="#inputnumber">InputNumber 数字</a>
+    <a href="#select">Select 下拉</a>
+    <a href="#datepicker">DatePicker 日期</a>
+    <a href="#checkradio">Checkbox / Radio</a>
+    <a href="#switch">Switch 开关</a>
+    <a href="#table">Table 表格</a>
+    <a href="#tag">Tag 标签</a>
+    <a href="#badge">Badge 徽标</a>
+    <a href="#modal">Modal 弹窗</a>
+    <a href="#drawer">Drawer 抽屉</a>
+    <a href="#alert">Alert 警告</a>
+    <a href="#progress">Progress 进度</a>
+    <a href="#tabs">Tabs 选项卡</a>
+    <a href="#stat">Statistic KPI</a>
+    <a href="#palette">业务状态色板</a>
+  </nav>
+
+  <main class="yc-main">
+
+    <!-- 1. Button -->
+    <section class="yc-section" id="btn">
+      <h2>Button 按钮</h2>
+      <p class="yc-sub">antd 对应：Button。主操作 ≤1 个 primary，危险操作用 danger，其余 default/text。</p>
+      <div class="yc-demo">
+        <button class="yc-btn yc-btn-primary">Primary</button>
+        <button class="yc-btn yc-btn-default">Default</button>
+        <button class="yc-btn yc-btn-dashed">Dashed</button>
+        <button class="yc-btn yc-btn-text">Text</button>
+        <button class="yc-btn yc-btn-danger">Danger</button>
+        <button class="yc-btn yc-btn-default" disabled>Disabled</button>
+        <button class="yc-btn yc-btn-primary"><span class="yc-spin"></span>Loading</button>
+        <button class="yc-btn yc-btn-default yc-btn-lg">Large</button>
+        <button class="yc-btn yc-btn-default yc-btn-sm">Small</button>
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>&lt;button class="yc-btn yc-btn-primary"&gt;Primary&lt;/button&gt;
+&lt;button class="yc-btn yc-btn-default"&gt;Default&lt;/button&gt;
+&lt;button class="yc-btn yc-btn-dashed"&gt;Dashed&lt;/button&gt;
+&lt;button class="yc-btn yc-btn-text"&gt;Text&lt;/button&gt;
+&lt;button class="yc-btn yc-btn-danger"&gt;Danger&lt;/button&gt;
+&lt;button class="yc-btn yc-btn-primary" disabled&gt;Disabled&lt;/button&gt;
+&lt;button class="yc-btn yc-btn-primary"&gt;&lt;span class="yc-spin"&gt;&lt;/span&gt;Loading&lt;/button&gt;</code></pre></div>
+    </section>
+
+    <!-- 2. Input -->
+    <section class="yc-section" id="input">
+      <h2>Input 输入框</h2>
+      <p class="yc-sub">antd 对应：Input。focus 主色描边 + 2px 光晕；错误态用 is-error，下方 12px 红字说明。</p>
+      <div class="yc-demo yc-rows">
+        <div class="yc-input-wrap" style="width:320px">
+          <span class="yc-affix yc-affix-left">🔍</span>
+          <input class="yc-input has-left" placeholder="带前缀图标" />
+        </div>
+        <div class="yc-input-wrap" style="width:320px">
+          <input class="yc-input" placeholder="默认态" />
+        </div>
+        <div class="yc-input-wrap" style="width:320px">
+          <input class="yc-input is-error" value="非法输入" />
+          <div class="yc-input-msg">库位编码格式不正确（例：A-01-02）</div>
+        </div>
+        <input class="yc-input" style="width:320px" disabled value="禁用态" />
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>&lt;div class="yc-input-wrap has-left"&gt;
+  &lt;span class="yc-affix yc-affix-left"&gt;🔍&lt;/span&gt;
+  &lt;input class="yc-input" placeholder="带前缀图标" /&gt;
+&lt;/div&gt;
+&lt;input class="yc-input is-error" value="非法输入" /&gt;
+&lt;div class="yc-input-msg"&gt;库位编码格式不正确&lt;/div&gt;</code></pre></div>
+    </section>
+
+    <!-- 3. InputNumber -->
+    <section class="yc-section" id="inputnumber">
+      <h2>InputNumber 数字输入</h2>
+      <p class="yc-sub">antd 对应：InputNumber。数字列一律 tabular-nums 对齐。</p>
+      <div class="yc-demo">
+        <div class="yc-input-number"><button>−</button><input value="12" /><button>+</button></div>
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>&lt;div class="yc-input-number"&gt;
+  &lt;button&gt;−&lt;/button&gt;&lt;input value="12" /&gt;&lt;button&gt;+&lt;/button&gt;
+&lt;/div&gt;</code></pre></div>
+    </section>
+
+    <!-- 4. Select -->
+    <section class="yc-section" id="select">
+      <h2>Select 下拉选择</h2>
+      <p class="yc-sub">antd 对应：Select。面板用 --shadow-1 抬升，选中项蓝底。</p>
+      <div class="yc-demo">
+        <div class="yc-select open">
+          <div class="yc-select-trigger">华东仓 <span class="arrow">▾</span></div>
+          <div class="yc-select-panel">
+            <div class="opt">华北仓</div>
+            <div class="opt active">华东仓</div>
+            <div class="opt">华南仓</div>
+            <div class="opt">西南仓</div>
+          </div>
+        </div>
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>&lt;div class="yc-select"&gt;
+  &lt;div class="yc-select-trigger"&gt;华东仓 &lt;span class="arrow"&gt;▾&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="yc-select-panel"&gt;
+    &lt;div class="opt"&gt;华北仓&lt;/div&gt;
+    &lt;div class="opt active"&gt;华东仓&lt;/div&gt;
+    &lt;div class="opt"&gt;华南仓&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+    </section>
+
+    <!-- 5. DatePicker -->
+    <section class="yc-section" id="datepicker">
+      <h2>DatePicker 日期选择</h2>
+      <p class="yc-sub">antd 对应：DatePicker。日历面板暗色自动适配。</p>
+      <div class="yc-demo">
+        <div class="yc-datepicker open">
+          <input class="yc-input" value="2026-07-16" />
+          <span class="yc-affix yc-affix-right" style="right:12px">📅</span>
+          <div class="yc-calendar">
+            <div class="cal-head"><span>‹</span><span>2026 年 7 月</span><span>›</span></div>
+            <div class="cal-grid">
+              <span class="wd">一</span><span class="wd">二</span><span class="wd">三</span><span class="wd">四</span><span class="wd">五</span><span class="wd">六</span><span class="wd">日</span>
+              <span class="day">29</span><span class="day">30</span><span class="day">1</span><span class="day">2</span><span class="day">3</span><span class="day">4</span><span class="day">5</span>
+              <span class="day">6</span><span class="day">7</span><span class="day">8</span><span class="day">9</span><span class="day">10</span><span class="day">11</span><span class="day">12</span>
+              <span class="day">13</span><span class="day">14</span><span class="day">15</span><span class="day today sel">16</span><span class="day">17</span><span class="day">18</span><span class="day">19</span>
+              <span class="day">20</span><span class="day">21</span><span class="day">22</span><span class="day">23</span><span class="day">24</span><span class="day">25</span><span class="day">26</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>&lt;div class="yc-datepicker"&gt;
+  &lt;input class="yc-input" value="2026-07-16" /&gt;
+  &lt;div class="yc-calendar"&gt;…日历网格…&lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+    </section>
+
+    <!-- 6. Checkbox & Radio -->
+    <section class="yc-section" id="checkradio">
+      <h2>Checkbox / Radio 多选 / 单选</h2>
+      <p class="yc-sub">antd 对应：Checkbox / Radio。选中主色填充。</p>
+      <div class="yc-demo">
+        <label class="yc-check"><input type="checkbox" checked /><span class="box"></span>收货</label>
+        <label class="yc-check"><input type="checkbox" /><span class="box"></span>上架</label>
+        <label class="yc-check is-disabled"><input type="checkbox" disabled /><span class="box"></span>盘点</label>
+        <label class="yc-radio"><input type="radio" name="r1" checked /><span class="dot"></span>普通</label>
+        <label class="yc-radio"><input type="radio" name="r1" /><span class="dot"></span>加急</label>
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>&lt;label class="yc-check"&gt;&lt;input type="checkbox" checked /&gt;&lt;span class="box"&gt;&lt;/span&gt;收货&lt;/label&gt;
+&lt;label class="yc-radio"&gt;&lt;input type="radio" name="r1" checked /&gt;&lt;span class="dot"&gt;&lt;/span&gt;普通&lt;/label&gt;</code></pre></div>
+    </section>
+
+    <!-- 7. Switch -->
+    <section class="yc-section" id="switch">
+      <h2>Switch 开关</h2>
+      <p class="yc-sub">antd 对应：Switch。on = 主色填充，滑块右移。</p>
+      <div class="yc-demo">
+        <button class="yc-switch on"></button>
+        <button class="yc-switch"></button>
+        <button class="yc-switch on" disabled></button>
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>&lt;button class="yc-switch on"&gt;&lt;/button&gt;  &lt;!-- 关闭去掉 on --&gt;</code></pre></div>
+    </section>
+
+    <!-- 8. Table -->
+    <section class="yc-section" id="table">
+      <h2>Table 表格</h2>
+      <p class="yc-sub">antd 对应：Table，密度 middle。状态列用 Tag 着色；数字列右对齐 tabular-nums。</p>
+      <div class="yc-demo yc-rows">
+        <table class="yc-table">
+          <thead><tr><th>单号</th><th>仓库</th><th class="num">件数</th><th>状态</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr><td>WO-20260716-001</td><td>华东仓</td><td class="num">1,280</td><td><span class="yc-tag yc-tag-biz-doing">收货中</span></td><td><a href="#" style="color:var(--color-primary)">详情</a></td></tr>
+            <tr><td>WO-20260716-002</td><td>华南仓</td><td class="num">640</td><td><span class="yc-tag yc-tag-biz-done">已上架</span></td><td><a href="#" style="color:var(--color-primary)">详情</a></td></tr>
+            <tr><td>WO-20260716-003</td><td>华北仓</td><td class="num">0</td><td><span class="yc-tag yc-tag-biz-exception">异常</span></td><td><a href="#" style="color:var(--color-primary)">详情</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>&lt;table class="yc-table"&gt;
+  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;单号&lt;/th&gt;&lt;th class="num"&gt;件数&lt;/th&gt;&lt;th&gt;状态&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;WO-001&lt;/td&gt;&lt;td class="num"&gt;1,280&lt;/td&gt;
+        &lt;td&gt;&lt;span class="yc-tag yc-tag-biz-doing"&gt;收货中&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre></div>
+    </section>
+
+    <!-- 9. Tag -->
+    <section class="yc-section" id="tag">
+      <h2>Tag 标签</h2>
+      <p class="yc-sub">antd 对应：Tag。下排为仓库业务状态语义色（待收货/收货中/已上架/异常）。</p>
+      <div class="yc-demo">
+        <span class="yc-tag yc-tag-default">默认</span>
+        <span class="yc-tag yc-tag-success">成功</span>
+        <span class="yc-tag yc-tag-processing">进行中</span>
+        <span class="yc-tag yc-tag-warning">警告</span>
+        <span class="yc-tag yc-tag-error">错误</span>
+        <span class="yc-tag yc-tag-biz-ready">待收货</span>
+        <span class="yc-tag yc-tag-biz-doing">收货中</span>
+        <span class="yc-tag yc-tag-biz-done">已上架</span>
+        <span class="yc-tag yc-tag-biz-exception">异常</span>
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>&lt;span class="yc-tag yc-tag-biz-doing"&gt;收货中&lt;/span&gt;
+&lt;span class="yc-tag yc-tag-biz-done"&gt;已上架&lt;/span&gt;
+&lt;span class="yc-tag yc-tag-biz-exception"&gt;异常&lt;/span&gt;</code></pre></div>
+    </section>
+
+    <!-- 10. Badge -->
+    <section class="yc-section" id="badge">
+      <h2>Badge 徽标</h2>
+      <p class="yc-sub">antd 对应：Badge。数字 / 圆点两种；位于图标右上角。</p>
+      <div class="yc-demo">
+        <span class="yc-badge"><span style="font-size:20px">🔔</span><span class="yc-badge-count">5</span></span>
+        <span class="yc-badge"><span style="font-size:20px">📦</span><span class="yc-badge-count yc-badge-success">12</span></span>
+        <span class="yc-badge"><span style="font-size:20px">⚙️</span><span class="yc-badge-dot"></span></span>
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>&lt;span class="yc-badge"&gt;🔔&lt;span class="yc-badge-count"&gt;5&lt;/span&gt;&lt;/span&gt;
+&lt;span class="yc-badge"&gt;⚙️&lt;span class="yc-badge-dot"&gt;&lt;/span&gt;&lt;/span&gt;</code></pre></div>
+    </section>
+
+    <!-- 11. Modal -->
+    <section class="yc-section" id="modal">
+      <h2>Modal 弹窗</h2>
+      <p class="yc-sub">antd 对应：Modal。遮罩 --color-bg-mask，卡片 --shadow-2。</p>
+      <div class="yc-demo">
+        <div class="yc-mask" style="position:relative;min-height:220px;border:1px dashed var(--color-border)">
+          <div class="yc-modal">
+            <div class="yc-modal-head">确认提交入库单？</div>
+            <div class="yc-modal-body">提交后单据将进入审核流程，不可直接修改。</div>
+            <div class="yc-modal-foot">
+              <button class="yc-btn yc-btn-default">取消</button>
+              <button class="yc-btn yc-btn-primary">确认</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>&lt;div class="yc-mask"&gt;
+  &lt;div class="yc-modal"&gt;
+    &lt;div class="yc-modal-head"&gt;标题&lt;/div&gt;
+    &lt;div class="yc-modal-body"&gt;内容&lt;/div&gt;
+    &lt;div class="yc-modal-foot"&gt;&lt;button class="yc-btn yc-btn-primary"&gt;确认&lt;/button&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+    </section>
+
+    <!-- 12. Drawer -->
+    <section class="yc-section" id="drawer">
+      <h2>Drawer 抽屉</h2>
+      <p class="yc-sub">antd 对应：Drawer。右侧滑出，常用于详情 / 表单。</p>
+      <div class="yc-demo">
+        <div style="position:relative;min-height:220px;border:1px dashed var(--color-border);width:100%">
+          <div class="yc-drawer" style="position:absolute">
+            <div class="yc-drawer-head">入库单详情</div>
+            <div class="yc-drawer-body">单号、货主、明细……</div>
+            <div class="yc-drawer-foot">
+              <button class="yc-btn yc-btn-default">关闭</button>
+              <button class="yc-btn yc-btn-primary">审核</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>&lt;div class="yc-drawer-mask"&gt;
+  &lt;div class="yc-drawer"&gt;
+    &lt;div class="yc-drawer-head"&gt;入库单详情&lt;/div&gt;
+    &lt;div class="yc-drawer-body"&gt;…&lt;/div&gt;
+    &lt;div class="yc-drawer-foot"&gt;…&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+    </section>
+
+    <!-- 13. Alert -->
+    <section class="yc-section" id="alert">
+      <h2>Alert 警告提示</h2>
+      <p class="yc-sub">antd 对应：Alert。四语义：success / info / warning / error。</p>
+      <div class="yc-demo yc-rows">
+        <div class="yc-alert yc-alert-success"><span class="yc-alert-icon">✓</span><div class="yc-alert-body"><div class="yc-alert-title">操作成功</div><div class="yc-alert-desc">入库单 WO-002 已上架。</div></div></div>
+        <div class="yc-alert yc-alert-info"><span class="yc-alert-icon">i</span><div class="yc-alert-body"><div class="yc-alert-title">提示</div><div class="yc-alert-desc">今日华东仓出库峰值预计 14:00。</div></div></div>
+        <div class="yc-alert yc-alert-warning"><span class="yc-alert-icon">!</span><div class="yc-alert-body"><div class="yc-alert-title">注意</div><div class="yc-alert-desc">A 区库存水位低于安全阈值。</div></div></div>
+        <div class="yc-alert yc-alert-error"><span class="yc-alert-icon">×</span><div class="yc-alert-body"><div class="yc-alert-title">失败</div><div class="yc-alert-desc">扫码设备离线，请重试。</div></div></div>
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>&lt;div class="yc-alert yc-alert-warning"&gt;
+  &lt;span class="yc-alert-icon"&gt;!&lt;/span&gt;
+  &lt;div class="yc-alert-body"&gt;&lt;div class="yc-alert-title"&gt;注意&lt;/div&gt;&lt;div class="yc-alert-desc"&gt;…&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+    </section>
+
+    <!-- 14. Progress -->
+    <section class="yc-section" id="progress">
+      <h2>Progress 进度</h2>
+      <p class="yc-sub">antd 对应：Progress。line / circle；success / exception 变体。</p>
+      <div class="yc-demo">
+        <div class="yc-progress-line" style="width:240px">
+          <div class="track"><div class="fill" style="width:72%"></div></div>
+          <div class="lab">72% · 收货中</div>
+        </div>
+        <div class="yc-progress-line" style="width:240px">
+          <div class="track"><div class="fill success" style="width:100%"></div></div>
+          <div class="lab">100% · 完成</div>
+        </div>
+        <div class="yc-progress-circle">
+          <svg width="80" height="80"><circle cx="40" cy="40" r="34" stroke="var(--color-fill-secondary)" stroke-width="8" fill="none"/><circle cx="40" cy="40" r="34" stroke="var(--color-primary)" stroke-width="8" fill="none" stroke-dasharray="213.6" stroke-dashoffset="59.8"/></svg>
+          <span class="pct">72%</span>
+        </div>
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>&lt;div class="yc-progress-line"&gt;
+  &lt;div class="track"&gt;&lt;div class="fill" style="width:72%"&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;div class="lab"&gt;72%&lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+    </section>
+
+    <!-- 15. Tabs -->
+    <section class="yc-section" id="tabs">
+      <h2>Tabs 选项卡</h2>
+      <p class="yc-sub">antd 对应：Tabs。active 主色下划线。</p>
+      <div class="yc-demo yc-rows">
+        <div class="yc-tabs-nav">
+          <div class="tab active">待办</div>
+          <div class="tab">进行中</div>
+          <div class="tab">已完成</div>
+        </div>
+        <div>当前显示「待办」内容区……</div>
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>&lt;div class="yc-tabs-nav"&gt;
+  &lt;div class="tab active"&gt;待办&lt;/div&gt;
+  &lt;div class="tab"&gt;进行中&lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+    </section>
+
+    <!-- 16. Statistic -->
+    <section class="yc-section" id="stat">
+      <h2>Statistic KPI 统计卡</h2>
+      <p class="yc-sub">antd 对应：Statistic + Card。大字号 tabular-nums，趋势用 success/error 色。</p>
+      <div class="yc-demo">
+        <div class="yc-stat" style="width:200px">
+          <div class="yc-stat-label">今日入库单量</div>
+          <div class="yc-stat-value">1,284</div>
+          <div class="yc-stat-trend up">▲ 12.3% 环比</div>
+        </div>
+        <div class="yc-stat" style="width:200px">
+          <div class="yc-stat-label">异常单量</div>
+          <div class="yc-stat-value">37</div>
+          <div class="yc-stat-trend down">▲ 5.1% 环比</div>
+        </div>
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>&lt;div class="yc-stat"&gt;
+  &lt;div class="yc-stat-label"&gt;今日入库单量&lt;/div&gt;
+  &lt;div class="yc-stat-value"&gt;1,284&lt;/div&gt;
+  &lt;div class="yc-stat-trend up"&gt;▲ 12.3% 环比&lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+    </section>
+
+    <!-- 17. 状态色板 -->
+    <section class="yc-section" id="palette">
+      <h2>业务状态色板（仓库专用语义）</h2>
+      <p class="yc-sub">非 antd 原生，是云仓业务语义约定。表格状态列 / Tag / 进度统一引用，勿与品牌蓝混淆。</p>
+      <div class="yc-demo yc-rows">
+        <div class="yc-palette">
+          <div class="yc-swatch"><div class="chip" style="background:var(--blue-1)"></div><div class="meta"><div class="name">待收货</div><div class="hex">--blue-1 / 主色文字</div></div></div>
+          <div class="yc-swatch"><div class="chip" style="background:#fffbe6"></div><div class="meta"><div class="name">收货中</div><div class="hex">#FFFBE6 / warning 文字</div></div></div>
+          <div class="yc-swatch"><div class="chip" style="background:#f6ffed"></div><div class="meta"><div class="name">已上架</div><div class="hex">#F6FFED / success 文字</div></div></div>
+          <div class="yc-swatch"><div class="chip" style="background:#fff1f0"></div><div class="meta"><div class="name">异常</div><div class="hex">#FFF1F0 / error 文字</div></div></div>
+          <div class="yc-swatch"><div class="chip" style="background:var(--color-primary)"></div><div class="meta"><div class="name">主操作</div><div class="hex">--color-primary</div></div></div>
+        </div>
+      </div>
+      <div class="yc-code"><button class="yc-copy">复制</button><pre><code>/* 业务状态语义 */
+待收货  --blue-1 底 + 主色文字
+收货中  #FFFBE6 底 + warning 文字
+已上架  #F6FFED 底 + success 文字
+异常    #FFF1F0 底 + error 文字</code></pre></div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // 主题切换
+  const root = document.documentElement;
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    root.setAttribute('data-theme', root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+  // 复制片段
+  document.querySelectorAll('.yc-copy').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const code = btn.parentElement.querySelector('code').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const t = btn.textContent; btn.textContent = '已复制';
+        setTimeout(() => btn.textContent = t, 1200);
+      });
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+DingTalk JinBuTi font notice
+
+This package includes the DingTalk JinBuTi font asset provided by the user for local prototype use.
+Keep the font file for prototype rendering only. Do not treat this notice as a production license review.
+Before redistribution or commercial release, confirm the official DingTalk JinBuTi license terms from the original source.

@@ -1,0 +1,360 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "pm-flow state.json (SSOT)",
+  "description": "One state file per product requirement. Records requirement type, mandatory preflight, stage status, confirmations, decisions, and artifact index.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "requirement",
+    "requirement_type",
+    "created_at",
+    "current_stage",
+    "path",
+    "stages",
+    "decisions",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "project": {
+      "type": "string",
+      "description": "Project name."
+    },
+    "requirement": {
+      "type": "string",
+      "description": "Requirement name."
+    },
+    "requirement_type": {
+      "type": "string",
+      "enum": [
+        "new-platform",
+        "iteration",
+        "iteration-lite",
+        "micro"
+      ],
+      "description": "Requirement type."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "intake": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "Requirement input path, relative to project root or absolute."
+    },
+    "project_config": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": ".pm-flow/project_config.json path, when custom artifact paths are used."
+    },
+    "requirement_analysis": {
+      "type": "object",
+      "description": "Mandatory requirement analysis preflight before any stage can advance.",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "todo",
+            "draft",
+            "confirmed"
+          ],
+          "default": "todo"
+        },
+        "artifact": {
+          "type": "string",
+          "default": "requirement_analysis.md"
+        },
+        "created_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "confirmed_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "confirmed_by": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      }
+    },
+    "current_stage": {
+      "type": "string",
+      "description": "Current active stage key."
+    },
+    "path": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "research",
+          "boundary",
+          "prototype",
+          "prd",
+          "review"
+        ]
+      },
+      "description": "Stage order computed from requirement_type."
+    },
+    "stages": {
+      "type": "object",
+      "description": "Stage state machine. status values: skipped, todo, confirmed, done, closed.",
+      "properties": {
+        "research": {
+          "$ref": "#/definitions/stage"
+        },
+        "boundary": {
+          "$ref": "#/definitions/stage"
+        },
+        "prototype": {
+          "$ref": "#/definitions/stage"
+        },
+        "prd": {
+          "$ref": "#/definitions/stage"
+        },
+        "review": {
+          "$ref": "#/definitions/stage"
+        }
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "description": "Append-only decision log.",
+      "items": {
+        "type": "object",
+        "required": [
+          "at",
+          "stage",
+          "decision"
+        ],
+        "properties": {
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "stage": {
+            "type": "string"
+          },
+          "decision": {
+            "type": "string"
+          },
+          "who": {
+            "type": "string",
+            "default": "user"
+          }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "description": "Artifact index: stage key to project-relative artifact path.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "context": {
+      "type": "object",
+      "description": "Optional context intake state.",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "none",
+            "inline",
+            "files",
+            "root",
+            "auto"
+          ],
+          "default": "none"
+        },
+        "root": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "manifest": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "default": []
+        },
+        "unresolved_questions": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "default": []
+        },
+        "conflicts": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "default": []
+        },
+        "stage_refs": {
+          "type": "object",
+          "default": {}
+        },
+        "confirmation": {
+          "type": "object",
+          "description": "Context intake confirmation. Required before requirement analysis or stage advancement.",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "todo",
+                "draft",
+                "confirmed"
+              ],
+              "default": "todo"
+            },
+            "artifact": {
+              "type": "string",
+              "default": "context_confirmation.md"
+            },
+            "created_at": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "confirmed_at": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "confirmed_by": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "stage": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "skipped",
+            "todo",
+            "confirmed",
+            "done",
+            "closed"
+          ]
+        },
+        "confirmed_by": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "confirmed_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "done_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "closed_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "closed_by": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "semantic_checked_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "semantic_checked_by": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "artifact": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "description": "Primary artifact path for this stage."
+        },
+        "notes": {
+          "type": "string",
+          "default": ""
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "pm-flow context block",
+  "type": "object",
+  "required": ["mode", "sources", "assumptions", "unresolved_questions", "conflicts", "stage_refs"],
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": ["none", "inline", "files", "root", "auto"]
+    },
+    "root": { "type": ["string", "null"], "default": null },
+    "manifest": { "type": ["string", "null"], "default": null },
+    "sources": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text"],
+        "properties": {
+          "text": { "type": "string" },
+          "stage": { "type": ["string", "null"], "default": null },
+          "by": { "type": ["string", "null"], "default": null },
+          "at": { "type": ["string", "null"], "default": null }
+        }
+      }
+    },
+    "unresolved_questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text"],
+        "properties": {
+          "text": { "type": "string" },
+          "stage": { "type": ["string", "null"], "default": null },
+          "owner": { "type": ["string", "null"], "default": null }
+        }
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text", "status"],
+        "properties": {
+          "text": { "type": "string" },
+          "stage": { "type": ["string", "null"], "default": null },
+          "status": { "type": "string", "enum": ["open", "resolved"] },
+          "resolution": { "type": ["string", "null"], "default": null }
+        }
+      }
+    },
+    "stage_refs": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "sources": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "applicable_rules": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "assumptions": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "conflicts": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "no_context_reason": { "type": ["string", "null"], "default": null }
+        }
+      }
+    }
+  }
+}
+

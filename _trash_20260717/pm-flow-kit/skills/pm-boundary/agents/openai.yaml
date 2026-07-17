@@ -1,0 +1,4 @@
+interface:
+  display_name: "PM Boundary"
+  short_description: "Define scope, non-scope, roles, constraints, and risks."
+  default_prompt: "Use $pm-boundary to produce boundary.md before prototype or PRD work."

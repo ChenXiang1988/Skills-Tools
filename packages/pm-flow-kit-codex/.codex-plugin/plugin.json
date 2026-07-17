@@ -1,0 +1,35 @@
+{
+  "name": "pm-flow-kit",
+  "version": "0.1.0+codex.20260717050104",
+  "description": "A self-contained product management workflow plugin with mandatory context confirmation, research, boundary definition, requirement analysis, metrics definition, scenario catalog, use cases, end-to-end flow, PRD, design-system-backed HTML prototype, diagram, independent review, and writing polish skills.",
+  "author": {
+    "name": "Martin"
+  },
+  "license": "UNLICENSED",
+  "keywords": [
+    "product-management",
+    "prd",
+    "prototype",
+    "workflow",
+    "knowledge-base"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "PM Flow Kit",
+    "shortDescription": "PM workflow kit with research, boundary, PRD, design-system prototypes, and review.",
+    "longDescription": "PM Flow Kit helps product teams and agents run staged product work with a self-contained workflow: context confirmation, research-stage context, boundary definition, requirement analysis, metrics definition, scenario catalog, use cases, end-to-end flow, artifact plan, PRD sizing, design-system-backed HTML prototype generation, optional prototype review artifacts, Mermaid diagrams, independent product review, and humanized product writing.",
+    "developerName": "Martin",
+    "category": "Productivity",
+    "capabilities": [
+      "Write",
+      "Interactive"
+    ],
+    "defaultPrompt": [
+      "\u542f\u52a8\u4e00\u4e2a\u4ea7\u54c1\u9700\u6c42\u6d41\u7a0b",
+      "\u57fa\u4e8e\u77e5\u8bc6\u5e93\u751f\u6210 PRD",
+      "\u751f\u6210\u4e00\u4e2a\u53ef\u8bc4\u5ba1\u7684 HTML \u539f\u578b",
+      "\u751f\u6210 research / boundary / review \u9636\u6bb5\u4ea7\u7269"
+    ],
+    "brandColor": "#2563EB"
+  }
+}

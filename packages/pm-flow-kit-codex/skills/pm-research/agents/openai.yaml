@@ -1,0 +1,4 @@
+interface:
+  display_name: "PM Research"
+  short_description: "Build opportunity, user, market, benchmark, and metric context."
+  default_prompt: "Use $pm-research to produce research.md before boundary and PRD work."

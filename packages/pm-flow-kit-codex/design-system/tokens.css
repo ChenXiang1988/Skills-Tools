@@ -1,0 +1,116 @@
+/* pm-flow-kit generic design tokens */
+@font-face {
+  font-family: "DingTalk JinBuTi";
+  src: url("../fonts/DingTalk-JinBuTi.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-primary: #1677ff;
+  --color-primary-bg: #e6f4ff;
+  --color-primary-hover: #4096ff;
+  --color-primary-active: #0958d9;
+  --color-success: #52c41a;
+  --color-success-bg: #f6ffed;
+  --color-warning: #faad14;
+  --color-warning-bg: #fffbe6;
+  --color-error: #ff4d4f;
+  --color-error-bg: #fff2f0;
+  --color-info: #1677ff;
+
+  --color-text: rgba(0, 0, 0, 0.88);
+  --color-text-secondary: rgba(0, 0, 0, 0.65);
+  --color-text-tertiary: rgba(0, 0, 0, 0.45);
+  --color-text-disabled: rgba(0, 0, 0, 0.25);
+  --color-bg-layout: #f5f5f5;
+  --color-bg-container: #ffffff;
+  --color-bg-elevated: #ffffff;
+  --color-bg-mask: rgba(0, 0, 0, 0.45);
+  --color-border: #d9d9d9;
+  --color-border-secondary: #f0f0f0;
+  --color-fill: rgba(0, 0, 0, 0.06);
+  --color-fill-secondary: rgba(0, 0, 0, 0.04);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 999px;
+
+  --font-family: "DingTalk JinBuTi", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-family-data: var(--font-family);
+  --font-size-sm: 12px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 20px;
+  --line-height: 1.5715;
+
+  --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02);
+  --shadow-floating: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12);
+
+  /* Backward-compatible aliases used by existing prototype scaffold CSS. */
+  --c-primary: var(--color-primary);
+  --c-primary-bg: var(--color-primary-bg);
+  --c-primary-hover: var(--color-primary-hover);
+  --c-primary-active: var(--color-primary-active);
+  --c-success: var(--color-success);
+  --c-success-bg: var(--color-success-bg);
+  --c-warning: var(--color-warning);
+  --c-warning-bg: var(--color-warning-bg);
+  --c-error: var(--color-error);
+  --c-error-bg: var(--color-error-bg);
+  --c-text: var(--color-text);
+  --c-text-2: var(--color-text-secondary);
+  --c-text-3: var(--color-text-tertiary);
+  --c-text-disabled: var(--color-text-disabled);
+  --c-border: var(--color-border);
+  --c-border-2: var(--color-border-secondary);
+  --c-bg-layout: var(--color-bg-layout);
+  --c-bg-container: var(--color-bg-container);
+  --c-bg-mask: var(--color-bg-mask);
+
+  --text-primary: var(--color-text);
+  --text-secondary: var(--color-text-secondary);
+  --text-tertiary: var(--color-text-tertiary);
+  --text-quaternary: var(--color-text-disabled);
+  --bg-page: var(--color-bg-layout);
+  --border-color: var(--color-border);
+  --color-danger: var(--color-error);
+  --font: var(--font-family);
+}
+
+[data-theme="dark"] {
+  --color-primary: #1668dc;
+  --color-primary-bg: rgba(22, 104, 220, 0.18);
+  --color-primary-hover: #3c89f2;
+  --color-primary-active: #1f5fb0;
+  --color-success: #49aa19;
+  --color-success-bg: rgba(73, 170, 25, 0.16);
+  --color-warning: #d89614;
+  --color-warning-bg: rgba(216, 150, 20, 0.16);
+  --color-error: #ff4d4f;
+  --color-error-bg: rgba(255, 77, 79, 0.16);
+  --color-text: rgba(255, 255, 255, 0.85);
+  --color-text-secondary: rgba(255, 255, 255, 0.65);
+  --color-text-tertiary: rgba(255, 255, 255, 0.45);
+  --color-text-disabled: rgba(255, 255, 255, 0.3);
+  --color-bg-layout: #000000;
+  --color-bg-container: #141414;
+  --color-bg-elevated: #1f1f1f;
+  --color-border: #303030;
+  --color-border-secondary: #2a2a2a;
+  --color-fill: rgba(255, 255, 255, 0.18);
+  --color-fill-secondary: rgba(255, 255, 255, 0.12);
+}

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{PROJECT_NAME}} Admin Prototype</title>
+  <link rel="stylesheet" href="assets/design-system/tokens.css">
+  <link rel="stylesheet" href="assets/prototype.css">
+  <link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+  <div class="admin-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-logo">{{PROJECT_LOGO}}</div><div class="brand-name">{{PROJECT_NAME}}</div></div>
+      <div id="roleTabs" class="role-tabs"></div>
+      <nav id="sideMenu" class="side-menu"></nav>
+      <div class="sidebar-footer"><button class="collapse-btn" id="collapseBtn">Menu</button></div>
+    </aside>
+    <main class="admin-main">
+      <header class="topbar">
+        <div id="pageTitle" class="page-title">Workbench</div>
+        <div class="topbar-right"><span>Help Center</span><span>Messages</span><div class="avatar">PM</div><span>Product Manager</span></div>
+      </header>
+      <section class="tabs" id="pageTabs"></section>
+      <section class="content">
+        <div class="empty-state">
+          <div class="blank-title">Page content placeholder</div>
+          <div class="blank-desc">This shell keeps role, menu, and tab structure. Edit <code>shared/menu-config.js</code> to add pages.</div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="shared/menu-config.js"></script>
+  <script src="shared/app-shell.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PM Flow Kit PDA Components</title>
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    body { margin: 0; padding: var(--space-6); background: var(--bg-page); color: var(--text-primary); font-family: var(--font-family); }
+    .pda-screen { width: var(--pda-screen-width); min-height: var(--pda-screen-height); margin: 0 auto; background: var(--pda-bg-panel); border-radius: var(--pda-radius-card); overflow: hidden; box-shadow: var(--shadow-floating); }
+    .pda-topbar { height: 48px; display: flex; align-items: center; justify-content: center; background: var(--color-primary); color: #fff; font-weight: 600; }
+    .pda-body { padding: var(--space-3); }
+    .pda-card { border: 1px solid var(--color-border-secondary); border-radius: var(--pda-radius-card); padding: var(--space-3); margin-bottom: var(--space-3); background: var(--color-bg-container); }
+    .pda-action { height: var(--pda-touch-target); border: 0; border-radius: var(--radius-lg); background: var(--color-primary); color: #fff; width: 100%; font: inherit; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <main class="pda-screen">
+    <div class="pda-topbar">Task</div>
+    <div class="pda-body">
+      <section class="pda-card">
+        <strong>Current item</strong>
+        <p>Use cards instead of dense desktop tables.</p>
+      </section>
+      <button class="pda-action">Primary action</button>
+    </div>
+  </main>
+</body>
+</html>

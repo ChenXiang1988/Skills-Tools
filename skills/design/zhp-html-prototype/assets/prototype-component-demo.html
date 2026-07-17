@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>控件参考 · zhp-html-prototype</title>
+  <link rel="stylesheet" href="prototype.css" />
+</head>
+<body>
+  <div class="content">
+    <div class="content-inner">
+      <div class="page-head">
+        <h2>控件视觉参考页</h2>
+        <p>本页列出 prototype.css 提供的所有公共控件。生成业务页时，直接复用这些类，不要自创样式。</p>
+      </div>
+
+      <section class="card">
+        <h3 class="card-title">按钮 Button</h3>
+        <div class="row">
+          <button class="btn">默认</button>
+          <button class="btn btn-primary">主要</button>
+          <button class="btn btn-danger">危险</button>
+          <button class="btn btn-sm">小号</button>
+          <button class="btn-link">文字链接</button>
+          <button class="btn-link danger">危险链接</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3 class="card-title">表单控件 Form</h3>
+        <div class="row" style="flex-wrap:wrap;gap:24px;">
+          <div class="filter-item"><label>文本输入</label><input type="text" placeholder="请输入" /></div>
+          <div class="filter-item"><label>下拉选择</label><select><option>选项一</option><option>选项二</option></select></div>
+          <div class="filter-item"><label>数字</label><input type="number" placeholder="0" /></div>
+        </div>
+        <div class="filter-item mt-md"><label>多行文本</label><textarea placeholder="请输入描述"></textarea></div>
+      </section>
+
+      <section class="card">
+        <h3 class="card-title">状态标签 Tag</h3>
+        <div class="row">
+          <span class="tag tag-success">启用</span>
+          <span class="tag tag-warning">告警</span>
+          <span class="tag tag-error">停用</span>
+          <span class="tag tag-info">待处理</span>
+          <span class="tag tag-default">未知</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3 class="card-title">表格 Table</h3>
+        <div class="table-wrap">
+          <table class="grid">
+            <thead><tr><th>编号</th><th>名称</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>T-0001</td><td>示例名称</td><td><span class="tag tag-success">启用</span></td><td>
+                <button class="btn-link">编辑</button><button class="btn-link danger">删除</button></td></tr>
+              <tr><td>T-0002</td><td>示例名称二</td><td><span class="tag tag-warning">告警</span></td><td>
+                <button class="btn-link">编辑</button><button class="btn-link danger">删除</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination"><span>共 2 条</span><span class="page-num active">1</span></div>
+      </section>
+
+      <section class="card">
+        <h3 class="card-title">弹窗 Modal（点击预览）</h3>
+        <button class="btn btn-primary" onclick="openModal('add')">打开弹窗</button>
+      </section>
+    </div>
+  </div>
+
+  <div class="modal-mask" id="modal">
+    <div class="modal">
+      <div class="modal-head" id="modal-title">新增</div>
+      <div class="modal-body">
+        <div class="form-row"><label>名称</label><input type="text" placeholder="请输入名称" /></div>
+        <div class="form-row"><label>状态</label><select><option>启用</option><option>停用</option></select></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" onclick="closeModal()">取消</button>
+        <button class="btn btn-primary" onclick="closeModal()">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="shared/app-shell.js"></script>
+</body>
+</html>

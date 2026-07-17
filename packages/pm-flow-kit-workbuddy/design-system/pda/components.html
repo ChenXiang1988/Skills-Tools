@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>云仓 PDA 组件库 · antd-mobile v5.42.2</title>
+<link rel="stylesheet" href="tokens.css" />
+<style>
+  /* ============ 画廊外壳（不参与出码） ============ */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--pda-font-family);
+    background: #0d0d0d;
+    color: #e6e6e6;
+  }
+  .g-topbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 20px; background: #161616; border-bottom: 1px solid #2b2b2b;
+  }
+  .g-topbar h1 { font-size: 16px; margin: 0; font-weight: 600; }
+  .g-toggle {
+    background: #242424; color: #e6e6e6; border: 1px solid #2b2b2b;
+    padding: 8px 14px; border-radius: 8px; font-size: 13px; cursor: pointer;
+  }
+  .g-layout { display: flex; align-items: flex-start; }
+  .g-nav {
+    position: sticky; top: 56px; width: 200px; flex: none;
+    padding: 16px 12px; font-size: 13px; border-right: 1px solid #2b2b2b;
+    height: calc(100vh - 56px); overflow: auto;
+  }
+  .g-nav a { display: block; color: #b3b3b3; text-decoration: none; padding: 6px 10px; border-radius: 6px; }
+  .g-nav a:hover { background: #242424; color: #e6e6e6; }
+  .g-main { flex: 1; padding: 24px; max-width: 920px; }
+  .g-section { margin-bottom: 48px; }
+  .g-section > h2 { font-size: 18px; margin: 0 0 4px; }
+  .g-section > p.desc { color: #b3b3b3; font-size: 13px; margin: 0 0 16px; }
+  .g-stage {
+    background: var(--pda-surface-1);
+    border: 1px solid var(--pda-border);
+    border-radius: 16px; padding: 20px; margin-bottom: 12px;
+  }
+  .g-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .g-copy {
+    background: #242424; color: #e6e6e6; border: 1px solid #2b2b2b;
+    padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; margin-top: 8px;
+  }
+  .g-copy:hover { border-color: var(--pda-primary); }
+  pre {
+    background: #111; color: #c8d3e0; border: 1px solid #2b2b2b; border-radius: 8px;
+    padding: 12px; font-size: 12px; line-height: 1.5; overflow: auto; max-height: 360px;
+  }
+  .g-hint { color: #808080; font-size: 12px; margin: 4px 0 0; }
+
+  /* ============ PDA 组件 CSS（复制一次到你的样式表） ============ */
+  .pda-phone {
+    position: relative; width: 390px; height: 640px; overflow: hidden;
+    background: var(--pda-surface-1); border: 1px solid var(--pda-border); border-radius: 24px;
+  }
+  .pda-col { width: 390px; background: var(--pda-surface-1); border: 1px solid var(--pda-border); border-radius: 16px; padding: 16px; }
+
+  /* NavBar */
+  .pda-navbar {
+    position: absolute; top: 0; left: 0; right: 0; height: 44px;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 12px;
+    background: var(--pda-surface-1); border-bottom: 1px solid var(--pda-border);
+    font-size: 17px; color: var(--pda-text); z-index: 5;
+  }
+  .pda-navbar .nav-icon { width: 24px; height: 24px; color: var(--pda-text); }
+  .pda-navbar .nav-title { font-weight: 600; }
+
+  /* Scan entry card */
+  .pda-scan-card {
+    display: flex; align-items: center; gap: 14px; min-height: 120px;
+    padding: 16px 20px; margin: 12px;
+    background: var(--pda-surface-2); border: 1.5px solid var(--pda-primary); border-radius: var(--pda-radius-l);
+    color: var(--pda-text); cursor: pointer;
+  }
+  .pda-scan-card:active { background: var(--pda-surface-3); }
+  .pda-scan-card .scan-icon { width: 40px; height: 40px; color: var(--pda-primary); flex: none; }
+  .pda-scan-card .scan-title { font-size: 18px; font-weight: 600; }
+  .pda-scan-card .scan-sub { font-size: 13px; color: var(--pda-text-secondary); margin-top: 4px; }
+
+  /* Button */
+  .pda-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: var(--pda-touch-main); padding: 0 20px; border: none; border-radius: var(--pda-radius-m);
+    font-size: 16px; font-family: var(--pda-font-family); color: #fff; background: var(--pda-primary);
+    cursor: pointer;
+  }
+  .pda-btn:active { filter: brightness(1.15); }
+  .pda-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .pda-btn--block { display: flex; width: 100%; }
+  .pda-btn--cta { min-height: var(--pda-touch-cta); font-size: 18px; font-weight: 600; border-radius: var(--pda-radius-pill); }
+  .pda-btn--ghost { background: transparent; color: var(--pda-primary); border: 1px solid var(--pda-primary); }
+
+  /* List item */
+  .pda-list { background: var(--pda-surface-2); border-radius: var(--pda-radius-m); overflow: hidden; }
+  .pda-list-item {
+    display: flex; align-items: center; gap: 12px; min-height: var(--pda-list-row-h);
+    padding: 8px 14px; border-bottom: 1px solid var(--pda-border); color: var(--pda-text);
+  }
+  .pda-list-item:last-child { border-bottom: none; }
+  .pda-list-thumb { width: 32px; height: 32px; border-radius: 8px; background: var(--pda-surface-3); flex: none; }
+  .pda-list-text { flex: 1; min-width: 0; }
+  .pda-list-text .t1 { font-size: 16px; }
+  .pda-list-text .t2 { font-size: 13px; color: var(--pda-text-secondary); margin-top: 2px; }
+
+  /* Tag */
+  .pda-tag {
+    display: inline-flex; align-items: center; height: 24px; padding: 0 10px; border-radius: var(--pda-radius-pill);
+    font-size: 12px;
+  }
+  .pda-tag--success { background: rgba(52,179,104,0.18); color: var(--pda-success-light); }
+  .pda-tag--warning { background: rgba(255,169,48,0.18); color: var(--pda-warning-light); }
+  .pda-tag--danger  { background: rgba(255,74,88,0.18);  color: var(--pda-danger-light); }
+  .pda-tag--info    { background: rgba(48,134,255,0.18);  color: var(--pda-info-light); }
+
+  /* TabBar */
+  .pda-tabbar {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 50px;
+    display: flex; background: var(--pda-surface-1); border-top: 1px solid var(--pda-border); z-index: 5;
+  }
+  .pda-tabbar-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--pda-text-weak); font-size: 12px; }
+  .pda-tabbar-item.active { color: var(--pda-primary); }
+  .pda-tabbar-item .tb-icon { width: 24px; height: 24px; }
+
+  /* Bottom scan bar */
+  .pda-bottombar {
+    position: absolute; bottom: 0; left: 0; right: 0; height: var(--pda-bottom-bar-h);
+    display: flex; align-items: center; padding: 0 14px 8px;
+    background: var(--pda-surface-2); border-top: 1px solid var(--pda-border); z-index: 5;
+  }
+  .pda-scan-cta {
+    flex: 1; height: var(--pda-touch-cta); border-radius: var(--pda-radius-pill);
+    background: var(--pda-primary); color: #fff; border: none; font-size: 18px; font-weight: 600;
+    font-family: var(--pda-font-family); letter-spacing: 4px; cursor: pointer;
+  }
+  .pda-scan-cta:active { filter: brightness(1.15); }
+
+  /* Numeric keypad */
+  .pda-keypad-display {
+    height: 56px; display: flex; align-items: center; justify-content: flex-end; padding: 0 16px;
+    background: var(--pda-surface-sunken); border-radius: var(--pda-radius-m); font-size: 24px; color: var(--pda-text);
+  }
+  .pda-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+  .pda-key {
+    height: var(--pda-key-size); border: 1px solid var(--pda-border); border-radius: var(--pda-radius-m);
+    background: var(--pda-surface-3); color: var(--pda-text); font-size: 20px; font-family: var(--pda-font-family); cursor: pointer;
+  }
+  .pda-key:active { background: var(--pda-border); }
+  .pda-key--fn { color: var(--pda-text-weak); font-size: 16px; }
+
+  /* Toast */
+  .pda-toast {
+    display: inline-flex; align-items: center; gap: 8px; max-width: 320px; padding: 10px 14px;
+    background: var(--pda-surface-3); border: 1px solid var(--pda-border); border-radius: var(--pda-radius-m);
+    font-size: 14px; color: var(--pda-text); box-shadow: var(--pda-shadow-2);
+  }
+  .pda-toast .ic { width: 18px; height: 18px; flex: none; }
+
+  /* Quick actions */
+  .pda-quick { display: flex; gap: 20px; }
+  .pda-quick-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .pda-quick-icon { width: var(--pda-quick-action); height: var(--pda-quick-action); border-radius: 50%; background: var(--pda-surface-3); border: 1px solid var(--pda-border); display: flex; align-items: center; justify-content: center; color: var(--pda-text-secondary); }
+  .pda-quick-icon .qi { width: 24px; height: 24px; }
+  .pda-quick-label { font-size: 12px; color: var(--pda-text-secondary); }
+</style>
+</head>
+<body>
+<div class="g-topbar">
+  <h1>云仓 PDA 组件库 · antd-mobile v5.42.2</h1>
+  <button class="g-toggle" id="themeToggle">切换 暗/亮</button>
+</div>
+
+<div class="g-layout">
+  <nav class="g-nav">
+    <a href="#nav">顶部栏 NavBar</a>
+    <a href="#scan">扫码入口卡</a>
+    <a href="#btn">大触控按钮</a>
+    <a href="#list">任务列表行</a>
+    <a href="#tag">状态标签</a>
+    <a href="#tab">底部标签栏</a>
+    <a href="#bottom">底部扫码栏</a>
+    <a href="#keypad">数字键盘</a>
+    <a href="#toast">Toast</a>
+    <a href="#quick">圆形快捷入口</a>
+  </nav>
+
+  <main class="g-main">
+    <p class="g-hint">暗色优先；点右上「切换 暗/亮」预览主题。组件 CSS 见各区块 <code>&lt;style&gt;</code> 顶部「PDA 组件 CSS（复制一次）」；下方每段可复制 HTML。</p>
+
+    <!-- NavBar -->
+    <section class="g-section" id="nav">
+      <h2>顶部栏 NavBar</h2>
+      <p class="desc">高 44px，左返回 / 中标题 / 右操作，对应 antd-mobile NavBar。</p>
+      <div class="g-stage">
+        <div class="pda-phone" style="height:120px">
+          <div class="pda-navbar">
+            <span class="nav-icon">‹</span>
+            <span class="nav-title">收货上架</span>
+            <span class="nav-icon">⋯</span>
+          </div>
+        </div>
+      </div>
+      <button class="g-copy" data-target="nav-code">复制 HTML</button>
+      <pre id="nav-code"><code>&lt;div class="pda-navbar"&gt;
+  &lt;span class="nav-icon"&gt;‹&lt;/span&gt;
+  &lt;span class="nav-title"&gt;收货上架&lt;/span&gt;
+  &lt;span class="nav-icon"&gt;⋯&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Scan card -->
+    <section class="g-section" id="scan">
+      <h2>扫码入口卡</h2>
+      <p class="desc">工业件（antd-mobile 无）。≥120px 高，主色描边，实体键 + 点击双触发。</p>
+      <div class="g-stage">
+        <div class="pda-col">
+          <div class="pda-scan-card">
+            <span class="scan-icon">▣</span>
+            <div>
+              <div class="scan-title">点击扫码 / 按扫码键</div>
+              <div class="scan-sub">SKU · 库位 · 容器号</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="g-copy" data-target="scan-code">复制 HTML</button>
+      <pre id="scan-code"><code>&lt;div class="pda-scan-card"&gt;
+  &lt;span class="scan-icon"&gt;▣&lt;/span&gt;
+  &lt;div&gt;
+    &lt;div class="scan-title"&gt;点击扫码 / 按扫码键&lt;/div&gt;
+    &lt;div class="scan-sub"&gt;SKU · 库位 · 容器号&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Button -->
+    <section class="g-section" id="btn">
+      <h2>大触控按钮</h2>
+      <p class="desc">主操作 56px，CTA 64px 胶囊；含 default / active / disabled / ghost 四态。</p>
+      <div class="g-stage">
+        <div class="g-row">
+          <button class="pda-btn">主操作 56</button>
+          <button class="pda-btn pda-btn--ghost">次操作</button>
+          <button class="pda-btn" disabled>禁用</button>
+          <button class="pda-btn pda-btn--cta">扫码 CTA 64</button>
+        </div>
+      </div>
+      <button class="g-copy" data-target="btn-code">复制 HTML</button>
+      <pre id="btn-code"><code>&lt;button class="pda-btn"&gt;主操作 56&lt;/button&gt;
+&lt;button class="pda-btn pda-btn--ghost"&gt;次操作&lt;/button&gt;
+&lt;button class="pda-btn" disabled&gt;禁用&lt;/button&gt;
+&lt;button class="pda-btn pda-btn--cta"&gt;扫码 CTA 64&lt;/button&gt;</code></pre>
+    </section>
+
+    <!-- List -->
+    <section class="g-section" id="list">
+      <h2>任务列表行</h2>
+      <p class="desc">行高 56px，对应 antd-mobile List.Item；右侧接状态标签（见 6.7）。</p>
+      <div class="g-stage">
+        <div class="pda-col">
+          <div class="pda-list">
+            <div class="pda-list-item">
+              <span class="pda-list-thumb"></span>
+              <div class="pda-list-text"><div class="t1">上架任务 #A1023</div><div class="t2">库位 B-03-12 · 12 SKU</div></div>
+              <span class="pda-tag pda-tag--warning">进行中</span>
+            </div>
+            <div class="pda-list-item">
+              <span class="pda-list-thumb"></span>
+              <div class="pda-list-text"><div class="t1">拣货任务 #P3381</div><div class="t2">待拣 · 冷藏区</div></div>
+              <span class="pda-tag pda-tag--info">待作业</span>
+            </div>
+            <div class="pda-list-item">
+              <span class="pda-list-thumb"></span>
+              <div class="pda-list-text"><div class="t1">盘点任务 #C0099</div><div class="t2">已完成 · 偏差 0</div></div>
+              <span class="pda-tag pda-tag--success">已完成</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="g-copy" data-target="list-code">复制 HTML</button>
+      <pre id="list-code"><code>&lt;div class="pda-list"&gt;
+  &lt;div class="pda-list-item"&gt;
+    &lt;span class="pda-list-thumb"&gt;&lt;/span&gt;
+    &lt;div class="pda-list-text"&gt;&lt;div class="t1"&gt;上架任务 #A1023&lt;/div&gt;&lt;div class="t2"&gt;库位 B-03-12 · 12 SKU&lt;/div&gt;&lt;/div&gt;
+    &lt;span class="pda-tag pda-tag--warning"&gt;进行中&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;!-- 更多行 ... --&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Tag -->
+    <section class="g-section" id="tag">
+      <h2>状态标签</h2>
+      <p class="desc">胶囊 24px；暗底用语义色 18% 透明背景 + 亮色文字。</p>
+      <div class="g-stage">
+        <div class="g-row">
+          <span class="pda-tag pda-tag--success">已完成</span>
+          <span class="pda-tag pda-tag--warning">进行中</span>
+          <span class="pda-tag pda-tag--danger">异常</span>
+          <span class="pda-tag pda-tag--info">待作业</span>
+        </div>
+      </div>
+      <button class="g-copy" data-target="tag-code">复制 HTML</button>
+      <pre id="tag-code"><code>&lt;span class="pda-tag pda-tag--success"&gt;已完成&lt;/span&gt;
+&lt;span class="pda-tag pda-tag--warning"&gt;进行中&lt;/span&gt;
+&lt;span class="pda-tag pda-tag--danger"&gt;异常&lt;/span&gt;
+&lt;span class="pda-tag pda-tag--info"&gt;待作业&lt;/span&gt;</code></pre>
+    </section>
+
+    <!-- TabBar -->
+    <section class="g-section" id="tab">
+      <h2>底部标签栏 TabBar</h2>
+      <p class="desc">高 50px，对应 antd-mobile TabBar；选中态用主色。</p>
+      <div class="g-stage">
+        <div class="pda-phone" style="height:140px">
+          <div class="pda-tabbar">
+            <div class="pda-tabbar-item active"><span class="tb-icon">▣</span>收货</div>
+            <div class="pda-tabbar-item"><span class="tb-icon">▦</span>上架</div>
+            <div class="pda-tabbar-item"><span class="tb-icon">⋮</span>我的</div>
+          </div>
+        </div>
+      </div>
+      <button class="g-copy" data-target="tab-code">复制 HTML</button>
+      <pre id="tab-code"><code>&lt;div class="pda-tabbar"&gt;
+  &lt;div class="pda-tabbar-item active"&gt;&lt;span class="tb-icon"&gt;▣&lt;/span&gt;收货&lt;/div&gt;
+  &lt;div class="pda-tabbar-item"&gt;&lt;span class="tb-icon"&gt;▦&lt;/span&gt;上架&lt;/div&gt;
+  &lt;div class="pda-tabbar-item"&gt;&lt;span class="tb-icon"&gt;⋮&lt;/span&gt;我的&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Bottom scan bar -->
+    <section class="g-section" id="bottom">
+      <h2>底部扫码栏</h2>
+      <p class="desc">工业件。高 72px，单一全宽 CTA 64px 胶囊，主色填充。</p>
+      <div class="g-stage">
+        <div class="pda-phone" style="height:160px">
+          <div class="pda-bottombar">
+            <button class="pda-scan-cta">扫 码</button>
+          </div>
+        </div>
+      </div>
+      <button class="g-copy" data-target="bottom-code">复制 HTML</button>
+      <pre id="bottom-code"><code>&lt;div class="pda-bottombar"&gt;
+  &lt;button class="pda-scan-cta"&gt;扫 码&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Keypad -->
+    <section class="g-section" id="keypad">
+      <h2>数字键盘</h2>
+      <p class="desc">工业件。按键 56px，数字 20px；删除 / 小数点用弱化色。</p>
+      <div class="g-stage">
+        <div class="pda-col">
+          <div class="pda-keypad-display">128</div>
+          <div class="pda-keypad">
+            <button class="pda-key">1</button><button class="pda-key">2</button><button class="pda-key">3</button>
+            <button class="pda-key">4</button><button class="pda-key">5</button><button class="pda-key">6</button>
+            <button class="pda-key">7</button><button class="pda-key">8</button><button class="pda-key">9</button>
+            <button class="pda-key pda-key--fn">.</button><button class="pda-key">0</button><button class="pda-key pda-key--fn">⌫</button>
+          </div>
+        </div>
+      </div>
+      <button class="g-copy" data-target="keypad-code">复制 HTML</button>
+      <pre id="keypad-code"><code>&lt;div class="pda-keypad-display"&gt;128&lt;/div&gt;
+&lt;div class="pda-keypad"&gt;
+  &lt;button class="pda-key"&gt;1&lt;/button&gt; ... &lt;button class="pda-key"&gt;9&lt;/button&gt;
+  &lt;button class="pda-key pda-key--fn"&gt;.&lt;/button&gt;
+  &lt;button class="pda-key"&gt;0&lt;/button&gt;
+  &lt;button class="pda-key pda-key--fn"&gt;⌫&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Toast -->
+    <section class="g-section" id="toast">
+      <h2>Toast 反馈</h2>
+      <p class="desc">对应 antd-mobile Toast；暗底 surface-3 + 描边 + 语义色图标。</p>
+      <div class="g-stage">
+        <div class="g-row">
+          <span class="pda-toast"><span class="ic" style="color:var(--pda-success-light)">✓</span>上架成功</span>
+          <span class="pda-toast"><span class="ic" style="color:var(--pda-danger-light)">!</span>库位不符</span>
+        </div>
+      </div>
+      <button class="g-copy" data-target="toast-code">复制 HTML</button>
+      <pre id="toast-code"><code>&lt;span class="pda-toast"&gt;&lt;span class="ic" style="color:var(--pda-success-light)"&gt;✓&lt;/span&gt;上架成功&lt;/span&gt;
+&lt;span class="pda-toast"&gt;&lt;span class="ic" style="color:var(--pda-danger-light)"&gt;!&lt;/span&gt;库位不符&lt;/span&gt;</code></pre>
+    </section>
+
+    <!-- Quick -->
+    <section class="g-section" id="quick">
+      <h2>圆形快捷入口</h2>
+      <p class="desc">56px 圆形，仅用于高频全局入口（≤4 个）。</p>
+      <div class="g-stage">
+        <div class="pda-quick">
+          <div class="pda-quick-item"><span class="pda-quick-icon"><span class="qi">▣</span></span><span class="pda-quick-label">收货</span></div>
+          <div class="pda-quick-item"><span class="pda-quick-icon"><span class="qi">▦</span></span><span class="pda-quick-label">上架</span></div>
+          <div class="pda-quick-item"><span class="pda-quick-icon"><span class="qi">⋮</span></span><span class="pda-quick-label">盘点</span></div>
+        </div>
+      </div>
+      <button class="g-copy" data-target="quick-code">复制 HTML</button>
+      <pre id="quick-code"><code>&lt;div class="pda-quick"&gt;
+  &lt;div class="pda-quick-item"&gt;&lt;span class="pda-quick-icon"&gt;&lt;span class="qi"&gt;▣&lt;/span&gt;&lt;/span&gt;&lt;span class="pda-quick-label"&gt;收货&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="pda-quick-item"&gt;&lt;span class="pda-quick-icon"&gt;&lt;span class="qi"&gt;▦&lt;/span&gt;&lt;/span&gt;&lt;span class="pda-quick-label"&gt;上架&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="pda-quick-item"&gt;&lt;span class="pda-quick-icon"&gt;&lt;span class="qi"&gt;⋮&lt;/span&gt;&lt;/span&gt;&lt;span class="pda-quick-label"&gt;盘点&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+  </main>
+</div>
+
+<script>
+  // 暗/亮切换（默认暗，加 data-theme="light" 切亮）
+  var t = document.getElementById('themeToggle');
+  t.addEventListener('click', function () {
+    var cur = document.documentElement.getAttribute('data-theme');
+    document.documentElement.setAttribute('data-theme', cur === 'light' ? 'dark' : 'light');
+  });
+  // 复制片段
+  document.querySelectorAll('.g-copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var el = document.getElementById(btn.getAttribute('data-target'));
+      navigator.clipboard.writeText(el.innerText).then(function () {
+        var o = btn.textContent; btn.textContent = '已复制 ✓';
+        setTimeout(function () { btn.textContent = o; }, 1200);
+      });
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+interface:
+  display_name: "PM Context Contract"
+  short_description: "Define knowledge-base intake, source scope, rule strength, and conflicts."
+  default_prompt: "Use $pm-context-contract to define the context contract for this product requirement."

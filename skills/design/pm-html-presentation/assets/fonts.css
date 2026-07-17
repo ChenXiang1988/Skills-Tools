@@ -1,0 +1,12 @@
+/* html-ppt :: shared fonts — OFFLINE / ZERO-EXTERNAL-DEP
+ *
+ * 原版这里用 8 个 Google Fonts @import（Inter / Noto Sans SC / Noto Serif SC /
+ * JetBrains Mono / Playfair Display / Space Grotesk / IBM Plex Mono / Archivo Black）。
+ * 改为「系统字体栈」，所有 deck 离线即可渲染，无任何外网请求。
+ *
+ * 具体字体栈在 assets/base.css 的 :root（--font-sans / --font-serif /
+ * --font-mono / --font-display）与各主题里定义，均内置中文系统字体
+ *（PingFang SC / Microsoft YaHei / Songti SC / SimSun），跨 macOS / Windows 正常显示。
+ *
+ * 若日后想恢复网络字体，把下面内容换回对应 @import 即可（会重新引入外部依赖）。
+ */

@@ -1,0 +1,4 @@
+interface:
+  display_name: "PM Mermaid Diagram"
+  short_description: "Create standalone PM Mermaid flow, swimlane-style, state, sequence, and architecture diagrams."
+  default_prompt: "Use $pm-mermaid-diagram to generate a clear standalone Mermaid diagram."

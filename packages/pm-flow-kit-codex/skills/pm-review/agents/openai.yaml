@@ -1,0 +1,4 @@
+interface:
+  display_name: "PM Review"
+  short_description: "Review product artifacts, risks, decisions, and readiness."
+  default_prompt: "Use $pm-review to perform an independent product review and produce review.md."

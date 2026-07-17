@@ -1,0 +1,25 @@
+/* Optional PDA/mobile token extension. */
+:root {
+  --pda-screen-width: 390px;
+  --pda-screen-height: 720px;
+  --pda-touch-target: 44px;
+  --pda-radius-card: 12px;
+  --pda-bg-page: #f5f6f8;
+  --pda-bg-panel: #ffffff;
+  --pda-text-primary: #1f2329;
+  --pda-text-secondary: #4e5969;
+  --pda-text-tertiary: #86909c;
+
+  --bg-page: var(--pda-bg-page);
+  --text-primary: var(--pda-text-primary);
+  --text-secondary: var(--pda-text-secondary);
+  --text-tertiary: var(--pda-text-tertiary);
+}
+
+[data-theme="dark"] {
+  --pda-bg-page: #101114;
+  --pda-bg-panel: #1b1d22;
+  --pda-text-primary: rgba(255, 255, 255, 0.9);
+  --pda-text-secondary: rgba(255, 255, 255, 0.68);
+  --pda-text-tertiary: rgba(255, 255, 255, 0.45);
+}

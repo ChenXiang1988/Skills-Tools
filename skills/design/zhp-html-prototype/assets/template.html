@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{PAGE_TITLE}}</title>
+  <link rel="stylesheet" href="assets/prototype.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- 侧边菜单：由 shared/app-shell.js 根据 shared/menu-config.js 渲染 -->
+    <aside class="sidebar">
+      <div class="brand">{{BRAND}}</div>
+      <ul class="menu" id="menu"></ul>
+    </aside>
+
+    <div class="main">
+      <header class="header">
+        <span class="title">{{PAGE_TITLE}}</span>
+        <span class="spacer"></span>
+        <span class="user">{{USER}}</span>
+      </header>
+
+      <main class="content">
+        <div class="content-inner">
+          <div class="page-head">
+            <h2>{{PAGE_TITLE}}</h2>
+            <p>{{PAGE_DESC}}</p>
+          </div>
+
+          <!-- 查询/筛选区 -->
+          <section class="card">
+            <div class="filter-bar">
+              <!-- 每个筛选条件一个 .filter-item：label + 控件 -->
+              <div class="filter-item">
+                <label>关键字</label>
+                <input type="text" placeholder="请输入" />
+              </div>
+              <div class="filter-item">
+                <label>状态</label>
+                <select><option value="">全部</option></select>
+              </div>
+              <div class="filter-actions">
+                <button class="btn btn-primary">查询</button>
+                <button class="btn">重置</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- 操作区 + 表格 -->
+          <section class="card">
+            <div class="row mb-md">
+              <strong class="card-title" style="margin:0;">{{TABLE_TITLE}}</strong>
+              <span class="spacer" style="flex:1;"></span>
+              <button class="btn btn-primary" onclick="openModal('add')">新增</button>
+            </div>
+
+            <div class="table-wrap">
+              <table class="grid">
+                <thead>
+                  <tr>
+                    <!-- 表格列：复制 <th> 增减列 -->
+                    <th>编号</th>
+                    <th>名称</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- 数据行示例：复制 <tr> 增减行 -->
+                  <tr>
+                    <td>T-0001</td>
+                    <td>示例名称</td>
+                    <td><span class="tag tag-success">启用</span></td>
+                    <td>
+                      <button class="btn-link" onclick="openModal('edit')">编辑</button>
+                      <button class="btn-link danger" onclick="alert('删除确认')">删除</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="pagination">
+              <span>共 1 条</span>
+              <span class="page-num active">1</span>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- 弹窗模板：新增/编辑共用，由 app-shell.js 控制显隐 -->
+  <div class="modal-mask" id="modal">
+    <div class="modal">
+      <div class="modal-head" id="modal-title">新增</div>
+      <div class="modal-body">
+        <!-- 每个字段一个 .form-row：label + 控件 -->
+        <div class="form-row">
+          <label>名称</label>
+          <input type="text" placeholder="请输入名称" />
+        </div>
+        <div class="form-row">
+          <label>状态</label>
+          <select><option>启用</option><option>停用</option></select>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" onclick="closeModal()">取消</button>
+        <button class="btn btn-primary" onclick="closeModal()">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 共享外壳与菜单配置，必须引用 -->
+  <script src="shared/menu-config.js"></script>
+  <script src="shared/app-shell.js"></script>
+  <script>
+    // 本页初始化：渲染菜单 + 标记当前激活项
+    renderShell({ activeKey: '{{MENU_KEY}}' });
+  </script>
+</body>
+</html>

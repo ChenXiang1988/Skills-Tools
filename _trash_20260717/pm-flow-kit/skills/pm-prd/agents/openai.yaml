@@ -1,0 +1,4 @@
+interface:
+  display_name: "PM PRD"
+  short_description: "Create right-sized PRDs with fields, acceptance criteria, and diagram links."
+  default_prompt: "Use $pm-prd to choose the PRD level and draft the matching product requirement document."
